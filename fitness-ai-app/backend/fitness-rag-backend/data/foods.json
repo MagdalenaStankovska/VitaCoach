@@ -1,0 +1,38 @@
+[
+  {
+    "source": "sample://offline",
+    "source_url": "sample://restaurant-2",
+    "restaurant": "Pizza House",
+    "meal_name": "Margherita Pizza",
+    "description": "Tomato sauce, mozzarella, basil",
+    "price": 420.0,
+    "category": "Pizza",
+    "calories": 510,
+    "protein": 22.9,
+    "carbs": 66.0,
+    "fats": 14.7,
+    "allergens": [
+      "milk"
+    ],
+    "image_url": "",
+    "nutrition_source": "openfoodfacts"
+  },
+  {
+    "source": "sample://offline",
+    "source_url": "sample://restaurant-1",
+    "restaurant": "Skopje Healthy Kitchen",
+    "meal_name": "Chicken Caesar Salad",
+    "description": "Grilled chicken, lettuce, parmesan, croutons",
+    "price": 350.0,
+    "category": "Salads",
+    "calories": 380,
+    "protein": 22.0,
+    "carbs": 18.0,
+    "fats": 22.0,
+    "allergens": [
+      "milk"
+    ],
+    "image_url": "",
+    "nutrition_source": "estimate"
+  }
+]
