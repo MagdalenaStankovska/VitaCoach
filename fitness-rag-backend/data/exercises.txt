@@ -1,0 +1,277 @@
+Push-up is a bodyweight exercise that targets chest, shoulders and triceps. Keep your body straight and lower until your chest nearly touches the floor.
+Squat is a compound lower body exercise that targets quadriceps, hamstrings and glutes. Keep your back straight and knees aligned with toes.
+Plank is a core stability exercise that strengthens abdominal muscles and improves posture.
+Deadlift is a strength exercise that targets back, glutes and hamstrings using a barbell or dumbbells.
+Lunges improve balance and strengthen the legs by stepping forward and lowering the body.
+Bench press is a strength exercise for chest and triceps performed with a barbell or dumbbells.
+Shoulder press targets the deltoid muscles and improves upper body strength.
+Bicep curl isolates the biceps and improves arm strength.
+Tricep dips target the triceps using body weight and a stable surface.
+Pull-up is an upper body exercise that strengthens the back and arms.
+Leg press is a machine exercise that targets the quadriceps and glutes.
+Calf raises strengthen the calf muscles and improve ankle stability.
+Russian twists target the obliques and improve core rotation strength.
+Mountain climbers are a dynamic exercise that improves cardio and core strength.
+Burpees are a full body exercise that combines strength and cardio training.
+Jump rope improves coordination, agility and cardiovascular fitness.
+Hip thrust targets the glutes and improves lower body power.
+Lat pulldown strengthens the upper back and lats using a cable machine.
+Leg curl isolates the hamstrings and improves knee stability.
+Leg extension targets the quadriceps using a machine.
+Chest fly isolates the chest muscles using dumbbells or a machine.
+Arnold press strengthens the shoulders and improves stability.
+Hammer curl targets the brachialis and forearms.
+Skull crushers strengthen the triceps using a barbell.
+Side plank strengthens the obliques and improves core stability.
+Bicycle crunch targets the abdominal muscles and improves endurance.
+Step-ups strengthen the legs and improve balance.
+Wall sit improves endurance in the quadriceps.
+Glute bridge strengthens the glutes and lower back.
+Superman exercise strengthens the lower back muscles.
+Face pull improves shoulder health and posture.
+Farmer's walk improves grip strength and core stability.
+Kettlebell swing improves power and cardiovascular fitness.
+Box jumps improve explosive leg power.
+High knees improve cardio and coordination.
+Jump squats improve explosive strength.
+Incline bench press targets upper chest muscles.
+Decline bench press targets lower chest muscles.
+Cable crossover isolates the chest muscles.
+Seated row strengthens the middle back muscles.
+T-bar row targets the back and improves pulling strength.
+Reverse fly improves shoulder stability and posture.
+Front raise isolates the anterior deltoid.
+Lateral raise targets the side deltoids.
+Shrugs strengthen the trapezius muscles.
+Good mornings strengthen the hamstrings and lower back.
+Romanian deadlift targets the posterior chain.
+Goblet squat improves squat form and core stability.
+Bulgarian split squat strengthens legs individually.
+Hack squat targets quadriceps using a machine.
+Sled push improves strength and conditioning.
+Battle ropes improve cardio and upper body endurance.
+Ab wheel rollout strengthens the core muscles.
+Hanging leg raises target lower abs.
+Cable crunch strengthens abdominal muscles.
+Toe touches improve core flexibility.
+Flutter kicks strengthen the lower abdominal muscles.
+Bear crawl improves full body coordination.
+Crab walk strengthens arms and core.
+Medicine ball slams improve power and conditioning.
+Resistance band pull apart improves shoulder health.
+Resistance band squats improve leg strength.
+Resistance band rows strengthen the back muscles.
+Resistance band curls improve arm strength.
+Resistance band pushdowns target triceps.
+Resistance band lateral walks activate glutes.
+Close grip bench press targets the inner chest and triceps using a narrow grip on the barbell.
+Diamond push-ups increase triceps activation by placing hands close together.
+Chest dips target the lower chest and triceps using parallel bars.
+Machine chest press strengthens the chest using guided resistance.
+Pec deck fly isolates the chest muscles using a machine.
+Landmine press strengthens shoulders and chest using a barbell anchored to the floor.
+Push press builds explosive shoulder strength using leg drive.
+Z press improves shoulder stability while seated on the floor.
+Cable front raise isolates the front deltoids using a cable machine.
+Upright row targets shoulders and traps using a barbell or dumbbells.
+Chin-ups strengthen the back and biceps using a supinated grip.
+Inverted rows improve upper back strength using bodyweight under a bar.
+Single arm dumbbell row targets the lats and improves balance.
+Pendlay row builds explosive back strength from the floor.
+Meadows row isolates the lats using a landmine setup.
+Straight arm pulldown isolates the lats using a cable machine.
+Wide grip lat pulldown emphasizes upper lats.
+Close grip seated row targets the middle back.
+Renegade rows strengthen the core and back simultaneously.
+Resistance band face pulls improve shoulder stability.
+Barbell back squat builds overall leg strength.
+Front squat targets quadriceps and core stability.
+Sumo deadlift emphasizes inner thighs and glutes.
+Trap bar deadlift reduces lower back strain while building strength.
+Walking lunges improve unilateral leg strength and balance.
+Reverse lunges reduce knee stress while strengthening legs.
+Curtsey lunges target glutes and inner thighs.
+Smith machine squat provides guided lower body strength training.
+Leg press calf raises strengthen calves using a machine.
+Single leg Romanian deadlift improves balance and hamstring strength.
+Nordic hamstring curls strengthen hamstrings eccentrically.
+Glute kickbacks isolate glutes using cable or bodyweight.
+Cable pull-through targets the posterior chain.
+Step-downs improve knee stability and control.
+Broad jumps build explosive lower body power.
+Depth jumps improve reactive strength.
+Wall balls combine squat and overhead press for conditioning.
+Thrusters combine front squat and overhead press.
+Pistol squats improve single leg strength and mobility.
+Cossack squats increase hip mobility and leg strength.
+Sit-ups strengthen abdominal muscles through full range motion.
+V-ups improve core strength and coordination.
+Hollow body hold strengthens deep core muscles.
+Dead bug exercise improves core stability and coordination.
+Bird dog strengthens lower back and core stability.
+Standing cable rotations strengthen obliques dynamically.
+Woodchoppers improve rotational core power.
+Plank shoulder taps improve core stability and shoulder control.
+Weighted decline sit-ups increase abdominal resistance.
+Medicine ball Russian twists improve rotational strength.
+Sprint intervals improve speed and cardiovascular endurance.
+Treadmill incline walk increases lower body endurance.
+Rowing machine improves full body cardio conditioning.
+Cycling sprints build leg endurance and power.
+Stair climber improves cardiovascular fitness and leg endurance.
+Agility ladder drills improve coordination and speed.
+Shuttle runs improve acceleration and agility.
+Battle rope waves increase upper body endurance.
+Shadow boxing improves coordination and cardio fitness.
+Ski erg improves full body conditioning.
+Resistance band chest press strengthens chest with elastic resistance.
+Resistance band deadlifts strengthen posterior chain.
+Resistance band lateral raises target shoulders.
+Resistance band hip thrust activates glutes.
+Resistance band monster walks improve glute activation.
+Resistance band good mornings strengthen hamstrings.
+Resistance band seated rows target back muscles.
+Resistance band overhead triceps extension strengthens triceps.
+Resistance band hammer curls improve arm strength.
+Resistance band glute bridges activate glutes.
+Decline push-ups increase upper chest and shoulder activation by elevating the feet.
+Archer push-ups improve unilateral chest and arm strength.
+Spiderman push-ups engage the core and hip flexors during the movement.
+Clap push-ups build explosive upper body power.
+Pseudo planche push-ups strengthen shoulders and wrists.
+Ring push-ups improve chest activation and stability.
+Single arm push-ups develop unilateral strength and balance.
+Wall handstand push-ups build shoulder strength using bodyweight.
+Pike push-ups target shoulders with bodyweight resistance.
+Floor press strengthens chest and triceps with limited shoulder strain.
+Dumbbell bench press improves chest symmetry and stability.
+Resistance band chest fly increases constant tension on chest muscles.
+Guillotine press targets upper chest with a wide grip.
+Svend press isolates chest by pressing weight plates together.
+Isometric push-up hold improves muscular endurance.
+Chest squeeze press increases chest contraction using dumbbells.
+Alternating dumbbell press improves unilateral control.
+Plate front raises strengthen shoulders and grip.
+Cable reverse fly strengthens rear deltoids.
+Band pullovers activate lats and chest.
+Wide grip pull-ups emphasize upper back width.
+Commando pull-ups improve grip and arm strength.
+Assisted pull-ups help beginners build back strength.
+Scapular pull-ups improve shoulder control and stability.
+Rack pulls strengthen upper portion of deadlift movement.
+Deficit deadlifts increase range of motion and strength.
+Snatch grip deadlifts emphasize upper back engagement.
+Barbell shrugs build trapezius size and strength.
+Dumbbell shrugs improve trap symmetry.
+Cable rows with pause increase time under tension.
+Heel elevated squats emphasize quadriceps activation.
+Box squats improve squat depth control and power.
+Pause squats increase lower body strength and stability.
+Tempo squats improve muscle control and endurance.
+Jefferson squats improve hip mobility and leg strength.
+Zercher squats strengthen core and legs simultaneously.
+Sissy squats isolate quadriceps intensely.
+Resistance band jump squats increase explosive strength.
+Single leg box squats improve unilateral leg strength.
+Isometric wall squat hold builds quad endurance.
+Glute ham raises strengthen posterior chain muscles.
+Cable kickbacks isolate glutes with constant tension.
+Banded hip abductions activate glute medius.
+Banded hip adductions strengthen inner thighs.
+Standing calf raises build calf strength using bodyweight.
+Seated calf raises isolate soleus muscle.
+Donkey calf raises increase calf stretch and activation.
+Tibialis raises strengthen the front lower leg muscles.
+Ankle hops improve lower leg explosiveness.
+Broad stance squats target inner thighs.
+Dragon flags build advanced core strength.
+Cable woodchop rotations improve rotational power.
+Hanging windshield wipers strengthen obliques dynamically.
+Reverse crunches target lower abdominal muscles.
+Weighted planks increase core resistance.
+Side plank hip dips improve oblique endurance.
+Swiss ball crunches increase abdominal activation.
+Stability ball rollouts improve core control.
+Kneeling ab rollouts strengthen core progressively.
+Medicine ball sit-ups add resistance to ab training.
+Sled drags improve conditioning and leg strength.
+Hill sprints build explosive speed and power.
+Tempo runs improve aerobic capacity.
+Jump lunges improve leg explosiveness.
+Skater jumps increase lateral power and coordination.
+Box step overs improve agility and balance.
+Bear plank shoulder taps strengthen core stability.
+Crab toe touches improve coordination and core control.
+Battle rope slams increase upper body power.
+Rowing sprints build cardiovascular endurance quickly.
+Resistance band push-ups increase chest tension.
+Resistance band split squats improve leg strength.
+Resistance band face pulls strengthen rear deltoids.
+Resistance band overhead squats improve mobility and stability.
+Resistance band speed rows improve explosive pulling strength.
+Resistance band tricep kickbacks isolate triceps.
+Resistance band lateral lunges target glutes and inner thighs.
+Resistance band seated leg curls strengthen hamstrings.
+Resistance band reverse fly improves posture.
+Resistance band squat to press combines lower and upper body work.
+Around the world shoulder raises improve shoulder mobility and control using dumbbells.
+Incline push-ups reduce load while strengthening chest and triceps.
+Decline dumbbell fly increases upper chest activation on an incline bench.
+Cross body cable press targets chest with rotational movement.
+Standing landmine chest press improves unilateral pressing strength.
+Overhead carry strengthens shoulders and core stability while walking.
+Bottoms-up kettlebell press improves shoulder stability and grip strength.
+Kettlebell clean builds explosive hip and upper body power.
+Kettlebell snatch improves full body coordination and conditioning.
+Dumbbell pullover strengthens chest and lats simultaneously.
+Chest supported dumbbell row isolates back muscles with minimal lower back strain.
+Resistance band assisted dips help build tricep strength for beginners.
+Isometric chin-up hold improves pulling endurance.
+Mixed grip pull-ups increase grip variation strength.
+Reverse grip barbell row targets lower lats and biceps.
+Seal rows isolate upper back while lying face down on a bench.
+Incline dumbbell rows increase upper back activation.
+Cable lat prayers isolate the lats with straight arm movement.
+Scapular wall slides improve shoulder mobility and posture.
+Prone Y raises strengthen lower trapezius muscles.
+
+Box pistol squats assist single leg strength development.
+Elevated split squats increase range of motion for glutes.
+Banded lateral step walks activate glute medius muscles.
+Barbell hip thrust with pause increases glute tension.
+Single leg hip thrust improves unilateral glute strength.
+Reverse hyperextensions strengthen lower back and glutes.
+Kettlebell goblet lunges improve posture and balance.
+Lateral box jumps increase side to side explosiveness.
+Banded squat pulses improve glute endurance.
+Paused Romanian deadlifts increase hamstring tension.
+Cable glute abductions isolate outer hip muscles.
+Standing hamstring curls with band strengthen knee flexion.
+Wall supported handstand hold improves shoulder endurance.
+Hanging knee tucks strengthen lower abdominal muscles.
+Seated medicine ball rotations improve controlled core strength.
+Cable anti-rotation press improves core stability.
+Stir the pot plank increases dynamic core engagement.
+Barbell rollout strengthens anterior core muscles.
+Toe to bar strengthens advanced core control.
+Standing oblique crunch with cable isolates side abs.
+Assault bike intervals improve high intensity conditioning.
+Farmer carry with trap bar increases total body strength.
+Weighted sled marches build lower body endurance.
+Bounding drills improve sprint mechanics and explosiveness.
+Carioca drills improve hip mobility and coordination.
+Lateral shuffle drills increase agility.
+Backward sled drags strengthen quadriceps safely.
+Box depth drops improve landing mechanics.
+Power skips increase sprint explosiveness.
+Med ball chest pass builds explosive pushing power.
+Resistance band pullovers strengthen lats with elastic resistance.
+Resistance band step-ups improve lower body control.
+Resistance band front squats improve posture and core strength.
+Resistance band single arm rows improve unilateral pulling.
+Resistance band overhead carries improve shoulder stability.
+Resistance band hamstring kickbacks isolate glutes.
+Resistance band ankle dorsiflexion strengthens shin muscles.
+Resistance band lateral shoulder walks improve rotator cuff strength.
+Resistance band rotational punches improve core power.
+Resistance band split stance presses improve stability.
