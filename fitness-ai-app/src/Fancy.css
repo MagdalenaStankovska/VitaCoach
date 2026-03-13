@@ -1,0 +1,404 @@
+/* ========================================
+   PREMIUM VISUAL ENHANCEMENT LAYER
+   ======================================== */
+
+/* Floating ambient glows */
+.app::before,
+.app::after {
+  content: "";
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.4;
+  z-index: 0;
+  will-change: transform;
+}
+
+.app::before {
+  top: -140px;
+  left: -160px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.65), rgba(34, 197, 94, 0));
+  animation: floatGlowA 18s ease-in-out infinite;
+}
+
+.app::after {
+  bottom: -140px;
+  right: -160px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.55), rgba(59, 130, 246, 0));
+  animation: floatGlowB 22s ease-in-out infinite;
+}
+
+/* Hero section elegance */
+.hero h1 {
+  text-shadow:
+    0 0 40px rgba(34, 197, 94, 0.3),
+    0 10px 30px rgba(34, 197, 94, 0.2);
+  letter-spacing: -0.03em;
+  font-weight: 900;
+}
+
+.hero p {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+.hero::after {
+  content: "";
+  display: block;
+  width: min(240px, 70%);
+  height: 1px;
+  margin: 22px auto 0;
+  background: linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.75), transparent);
+}
+
+/* Refined card styling */
+.card,
+.exercise-card,
+.training-card,
+.my-plan-card {
+  border-color: rgba(74, 222, 128, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.08) inset,
+    0 20px 50px rgba(2, 6, 23, 0.45),
+    0 2px 8px rgba(34, 197, 94, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after,
+.exercise-card::after,
+.training-card::after,
+.my-plan-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(74, 222, 128, 0.06) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(59, 130, 246, 0.04) 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card:hover::after,
+.exercise-card:hover::after,
+.training-card:hover::after,
+.my-plan-card:hover::after {
+  opacity: 1;
+}
+
+.card:hover,
+.exercise-card:hover,
+.training-card:hover,
+.my-plan-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.2) inset,
+    0 24px 60px rgba(16, 185, 129, 0.28),
+    0 4px 16px rgba(34, 197, 94, 0.24);
+}
+
+/* Premium button effects */
+.save-btn,
+.ask-section button,
+.favorites-toggle-btn {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 45%, #4ade80 100%);
+  background-size: 200% 200%;
+  animation: buttonGlow 6s ease-in-out infinite;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 8px 24px rgba(34, 197, 94, 0.35),
+    0 2px 8px rgba(22, 163, 74, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.save-btn::after,
+.ask-section button::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  animation: shimmerSweep 3s ease-in-out infinite;
+}
+
+.save-btn:hover,
+.ask-section button:hover,
+.favorites-toggle-btn:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 12px 32px rgba(34, 197, 94, 0.45),
+    0 4px 16px rgba(22, 163, 74, 0.5);
+  background-size: 220% 220%;
+}
+
+/* Navbar premium styling */
+.navbar {
+  border-bottom-color: rgba(74, 222, 128, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.1) inset,
+    0 12px 40px rgba(2, 6, 23, 0.55),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(24px) saturate(180%);
+}
+
+.logo {
+  filter: drop-shadow(0 4px 12px rgba(34, 197, 94, 0.4));
+}
+
+.menu a,
+.menu span {
+  border: 1px solid transparent;
+  position: relative;
+  backdrop-filter: blur(8px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.menu a:hover,
+.menu span:hover {
+  border-color: rgba(74, 222, 128, 0.35);
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.12),
+    rgba(74, 222, 128, 0.08)
+  );
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.15) inset,
+    0 4px 12px rgba(34, 197, 94, 0.2);
+}
+
+.menu a::after,
+.menu span::after {
+  background: linear-gradient(90deg, #16a34a, #22c55e, #4ade80);
+  height: 3px;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+/* Modal refinements */
+.modal,
+.training-modal {
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.15) inset,
+    0 40px 100px rgba(2, 6, 23, 0.75),
+    0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(32px) saturate(150%);
+}
+
+.modal-overlay,
+.training-modal-overlay {
+  backdrop-filter: blur(12px) saturate(120%);
+}
+
+/* Input field elegance */
+.ask-section textarea {
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.15) inset,
+    0 8px 24px rgba(2, 6, 23, 0.3);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+
+.ask-section textarea:focus {
+  box-shadow:
+    0 0 0 2px rgba(74, 222, 128, 0.3) inset,
+    0 0 0 4px rgba(34, 197, 94, 0.15),
+    0 12px 32px rgba(2, 6, 23, 0.4);
+}
+
+/* Answer cards premium look */
+.short-card,
+.long-card {
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.12) inset,
+    0 16px 40px rgba(2, 6, 23, 0.4),
+    0 4px 12px rgba(34, 197, 94, 0.15);
+}
+
+.short-card::before,
+.long-card::before {
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+}
+
+/* Favorite heart enhancement */
+.favorite-heart {
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+    0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.favorite-heart:hover {
+  transform: scale(1.15);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.25) inset,
+    0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+.favorite-heart.is-favorite {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(239, 68, 68, 0.15));
+  box-shadow:
+    0 0 0 1px rgba(248, 113, 113, 0.4) inset,
+    0 4px 16px rgba(239, 68, 68, 0.4),
+    0 0 20px rgba(248, 113, 113, 0.3);
+}
+
+/* Training chips elegance */
+.training-chip-duration,
+.training-chip-level {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+/* Scroll enhancements */
+.modal::-webkit-scrollbar-thumb,
+.training-modal::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #16a34a, #22c55e, #4ade80);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}
+
+/* Animation keyframes */
+@keyframes buttonGlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+@keyframes floatGlowA {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translate3d(50px, 30px, 0) scale(1.08);
+    opacity: 0.5;
+  }
+  66% {
+    transform: translate3d(-30px, 50px, 0) scale(0.95);
+    opacity: 0.35;
+  }
+}
+
+@keyframes floatGlowB {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.4;
+  }
+  40% {
+    transform: translate3d(-40px, -30px, 0) scale(1.05);
+    opacity: 0.48;
+  }
+  80% {
+    transform: translate3d(30px, -40px, 0) scale(0.92);
+    opacity: 0.32;
+  }
+}
+
+@keyframes cardRise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive refinements */
+@media (max-width: 768px) {
+  .app::before,
+  .app::after {
+    width: 280px;
+    height: 280px;
+    filter: blur(60px);
+    opacity: 0.28;
+  }
+
+  .card,
+  .exercise-card,
+  .training-card,
+  .my-plan-card {
+    box-shadow:
+      0 0 0 1px rgba(74, 222, 128, 0.08) inset,
+      0 12px 32px rgba(2, 6, 23, 0.35),
+      0 2px 8px rgba(34, 197, 94, 0.1);
+  }
+
+  .navbar {
+    backdrop-filter: blur(20px) saturate(150%);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero::after {
+    margin-top: 16px;
+  }
+
+  .card,
+  .training-card,
+  .my-plan-card,
+  .exercise-card {
+    border-radius: 14px;
+  }
+
+  .modal,
+  .training-modal {
+    backdrop-filter: blur(20px) saturate(130%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app::before,
+  .app::after,
+  .save-btn,
+  .ask-section button,
+  .favorites-toggle-btn,
+  .save-btn::after,
+  .ask-section button::after {
+    animation: none;
+  }
+
+  .card,
+  .exercise-card,
+  .training-card,
+  .my-plan-card {
+    transition: none;
+  }
+
+  .grid > .exercise-card,
+  .training-grid > .training-card,
+  .my-plan-grid > .my-plan-card {
+    animation: none;
+  }
+}
