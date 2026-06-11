@@ -1,72 +1,137 @@
-/* ========================================
-   PREMIUM VISUAL ENHANCEMENT LAYER
-   ======================================== */
+/* ═══════════════════════════════════════════════════
+   VITACOACH — PREMIUM DESIGN LAYER  v3
+   Loaded last via main.jsx; selectively overrides App.css.
+   ═══════════════════════════════════════════════════ */
 
-/* Floating ambient glows */
+/* ─── Design Tokens ─────────────────────────────── */
+:root {
+  --vc-green-dim:    rgba(34, 197, 94, 0.10);
+  --vc-green-soft:   rgba(34, 197, 94, 0.18);
+  --vc-green-mid:    rgba(34, 197, 94, 0.32);
+  --vc-green-vivid:  rgba(74, 222, 128, 0.65);
+  --vc-blue-dim:     rgba(59, 130, 246, 0.10);
+  --vc-blue-soft:    rgba(59, 130, 246, 0.18);
+  --vc-surface-0:    #040b18;
+  --vc-surface-1:    rgba(15, 23, 42, 0.90);
+  --vc-surface-2:    rgba(15, 23, 42, 0.65);
+  --vc-surface-3:    rgba(15, 23, 42, 0.42);
+  --vc-border-dim:   rgba(74, 222, 128, 0.12);
+  --vc-border-mid:   rgba(74, 222, 128, 0.26);
+  --vc-border-vivid: rgba(74, 222, 128, 0.52);
+  --vc-shadow-deep:  0 24px 64px rgba(2, 6, 23, 0.65), 0 8px 24px rgba(2, 6, 23, 0.40);
+  --vc-shadow-glow:  0 0 0 1px rgba(74, 222, 128, 0.13) inset,
+                     0 24px 64px rgba(2, 6, 23, 0.55),
+                     0 4px 16px rgba(34, 197, 94, 0.10);
+}
+
+/* ─── Font stack ─────────────────────────────────── */
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #040b18;
+  background-image:
+    radial-gradient(ellipse 110% 65% at 15% -12%, rgba(34, 197, 94, 0.13) 0%, transparent 58%),
+    radial-gradient(ellipse 80% 55% at 88% 112%, rgba(59, 130, 246, 0.10) 0%, transparent 55%);
+  background-attachment: fixed;
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 55% 42% at 72% 18%, rgba(34, 197, 94, 0.08) 0%, transparent 52%),
+    radial-gradient(ellipse 50% 50% at 28% 84%, rgba(59, 130, 246, 0.07) 0%, transparent 52%);
+}
+
+/* Subtle dot-grid texture on glass surfaces */
+.card,
+.exercise-card,
+.training-card,
+.my-plan-card,
+.modal {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ─── Ambient orbs ───────────────────────────────── */
 .app::before,
 .app::after {
-  content: "";
-  position: fixed;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(80px);
-  opacity: 0.4;
-  z-index: 0;
-  will-change: transform;
+  width: 520px;
+  height: 520px;
+  filter: blur(110px);
+  opacity: 0.26;
 }
 
 .app::before {
-  top: -140px;
-  left: -160px;
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.65), rgba(34, 197, 94, 0));
-  animation: floatGlowA 18s ease-in-out infinite;
+  top: -180px;
+  left: -200px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.75), rgba(34, 197, 94, 0));
+  animation: floatGlowA 22s ease-in-out infinite;
 }
 
 .app::after {
-  bottom: -140px;
-  right: -160px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.55), rgba(59, 130, 246, 0));
-  animation: floatGlowB 22s ease-in-out infinite;
+  bottom: -180px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.65), rgba(59, 130, 246, 0));
+  animation: floatGlowB 28s ease-in-out infinite;
 }
 
-/* Hero section elegance */
+/* Third ambient orb centered behind hero */
+.hero {
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74, 222, 128, 0.10), rgba(74, 222, 128, 0));
+  filter: blur(90px);
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: floatGlowA 16s ease-in-out infinite reverse;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Hero typography ────────────────────────────── */
 .hero h1 {
   text-shadow:
-    0 0 40px rgba(34, 197, 94, 0.3),
-    0 10px 30px rgba(34, 197, 94, 0.2);
-  letter-spacing: -0.03em;
+    0 0 80px rgba(34, 197, 94, 0.22),
+    0 12px 48px rgba(34, 197, 94, 0.14);
+  letter-spacing: -0.045em;
   font-weight: 900;
 }
 
 .hero p {
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  font-weight: 400;
-  opacity: 0.95;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+  color: #b8c8dc;
 }
 
 .hero::after {
-  content: "";
-  display: block;
-  width: min(240px, 70%);
+  width: min(320px, 80%);
   height: 1px;
-  margin: 22px auto 0;
-  background: linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.75), transparent);
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.55), rgba(96, 165, 250, 0.30), transparent);
+  margin-top: 32px;
 }
 
-/* Refined card styling */
+/* ─── Card system ────────────────────────────────── */
 .card,
 .exercise-card,
 .training-card,
 .my-plan-card {
-  border-color: rgba(74, 222, 128, 0.28);
-  box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.08) inset,
-    0 20px 50px rgba(2, 6, 23, 0.45),
-    0 2px 8px rgba(34, 197, 94, 0.12);
-  position: relative;
-  overflow: hidden;
+  border-color: var(--vc-border-dim);
+  box-shadow: var(--vc-shadow-glow);
+  transition:
+    transform 0.32s cubic-bezier(0.34, 1.04, 0.64, 1),
+    box-shadow 0.32s ease,
+    border-color 0.32s ease;
 }
 
 .card::after,
@@ -78,15 +143,36 @@
   inset: 0;
   border-radius: inherit;
   background: linear-gradient(
-    135deg,
-    rgba(74, 222, 128, 0.06) 0%,
-    transparent 40%,
-    transparent 60%,
-    rgba(59, 130, 246, 0.04) 100%
+    148deg,
+    rgba(74, 222, 128, 0.08) 0%,
+    transparent 42%,
+    transparent 58%,
+    rgba(59, 130, 246, 0.05) 100%
   );
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.42s ease;
+  z-index: 0;
+}
+
+.card:hover,
+.training-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--vc-border-mid);
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.20) inset,
+    0 32px 80px rgba(2, 6, 23, 0.65),
+    0 8px 28px rgba(34, 197, 94, 0.18);
+}
+
+.exercise-card:hover,
+.my-plan-card:hover {
+  transform: translateY(-9px) scale(1.025);
+  border-color: rgba(74, 222, 128, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.24) inset,
+    0 22px 56px rgba(34, 197, 94, 0.26),
+    0 6px 20px rgba(2, 6, 23, 0.55);
 }
 
 .card:hover::after,
@@ -96,29 +182,86 @@
   opacity: 1;
 }
 
-.card:hover,
-.exercise-card:hover,
-.training-card:hover,
-.my-plan-card:hover {
+/* ─── Answer panels ──────────────────────────────── */
+.short-card {
+  background:
+    linear-gradient(148deg, rgba(16, 185, 129, 0.17), rgba(15, 23, 42, 0.90));
+  border-color: rgba(110, 231, 183, 0.36);
   box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.2) inset,
-    0 24px 60px rgba(16, 185, 129, 0.28),
-    0 4px 16px rgba(34, 197, 94, 0.24);
+    0 0 0 1px rgba(110, 231, 183, 0.13) inset,
+    0 22px 56px rgba(2, 6, 23, 0.48),
+    0 4px 18px rgba(16, 185, 129, 0.20);
 }
 
-/* Premium button effects */
+.short-card::before {
+  background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+  background-size: 200% 100%;
+  animation: shimmer 3.2s linear infinite;
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.65);
+}
+
+.long-card {
+  background:
+    linear-gradient(148deg, rgba(30, 64, 175, 0.15), rgba(15, 23, 42, 0.90));
+  border-color: rgba(125, 211, 252, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(125, 211, 252, 0.10) inset,
+    0 22px 56px rgba(2, 6, 23, 0.48),
+    0 4px 18px rgba(59, 130, 246, 0.16);
+}
+
+.long-card::before {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+  background-size: 200% 100%;
+  animation: shimmer 3.2s linear infinite;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.45);
+}
+
+/* ─── Answer blocks ──────────────────────────────── */
+.answer-block {
+  border-color: rgba(148, 163, 184, 0.12);
+  background: rgba(15, 23, 42, 0.50);
+  transition: border-color 0.22s ease, background 0.22s ease;
+}
+
+.answer-block:hover {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.65);
+}
+
+.answer-block-quick {
+  background: linear-gradient(148deg, rgba(16, 185, 129, 0.14), rgba(15, 23, 42, 0.58));
+  border-color: rgba(110, 231, 183, 0.22);
+}
+
+.answer-list li::before {
+  box-shadow: 0 0 14px rgba(74, 222, 128, 0.7), 0 0 4px rgba(74, 222, 128, 1);
+}
+
+/* ─── Buttons ────────────────────────────────────── */
 .save-btn,
 .ask-section button,
 .favorites-toggle-btn {
-  background: linear-gradient(135deg, #16a34a 0%, #22c55e 45%, #4ade80 100%);
+  background: linear-gradient(135deg, #14532d 0%, #16a34a 40%, #22c55e 75%, #4ade80 100%);
   background-size: 200% 200%;
-  animation: buttonGlow 6s ease-in-out infinite;
+  animation: buttonGlow 8s ease-in-out infinite;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 8px 24px rgba(34, 197, 94, 0.35),
-    0 2px 8px rgba(22, 163, 74, 0.4);
-  position: relative;
-  overflow: hidden;
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset,
+    0 8px 30px rgba(34, 197, 94, 0.42),
+    0 2px 8px rgba(22, 163, 74, 0.48);
+  letter-spacing: 0.015em;
+  font-weight: 700;
+}
+
+.save-btn:hover,
+.ask-section button:hover,
+.favorites-toggle-btn:hover {
+  background-size: 240% 240%;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.22) inset,
+    0 14px 40px rgba(34, 197, 94, 0.58),
+    0 4px 16px rgba(22, 163, 74, 0.58);
+  transform: translateY(-3px) scale(1.01);
 }
 
 .save-btn::after,
@@ -126,279 +269,328 @@
   content: "";
   position: absolute;
   top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
   background: linear-gradient(
     45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.15) 50%,
-    transparent 70%
+    transparent 28%,
+    rgba(255, 255, 255, 0.20) 50%,
+    transparent 72%
   );
   transform: rotate(45deg);
-  animation: shimmerSweep 3s ease-in-out infinite;
+  animation: shimmerSweep 4s ease-in-out infinite;
 }
 
-.save-btn:hover,
-.ask-section button:hover,
-.favorites-toggle-btn:hover {
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
-    0 12px 32px rgba(34, 197, 94, 0.45),
-    0 4px 16px rgba(22, 163, 74, 0.5);
-  background-size: 220% 220%;
-}
-
-/* Navbar premium styling */
+/* ─── Navbar ─────────────────────────────────────── */
 .navbar {
-  border-bottom-color: rgba(74, 222, 128, 0.35);
   box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.1) inset,
-    0 12px 40px rgba(2, 6, 23, 0.55),
-    0 4px 12px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(24px) saturate(180%);
+    0 0 0 1px rgba(74, 222, 128, 0.10) inset,
+    0 18px 56px rgba(2, 6, 23, 0.65),
+    0 4px 16px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(32px) saturate(210%);
+}
+
+.navbar::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(74, 222, 128, 0.38),
+    rgba(96, 165, 250, 0.24),
+    transparent
+  );
+  height: 1px;
 }
 
 .logo {
-  filter: drop-shadow(0 4px 12px rgba(34, 197, 94, 0.4));
+  filter: drop-shadow(0 4px 18px rgba(34, 197, 94, 0.50));
+  letter-spacing: -0.03em;
 }
 
-.menu a,
-.menu span {
-  border: 1px solid transparent;
-  position: relative;
-  backdrop-filter: blur(8px);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+.menu .nav-link {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.menu a:hover,
-.menu span:hover {
-  border-color: rgba(74, 222, 128, 0.35);
-  background: linear-gradient(
-    135deg,
-    rgba(34, 197, 94, 0.12),
-    rgba(74, 222, 128, 0.08)
-  );
+.menu .nav-link:hover {
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.18) inset;
+}
+
+.menu .nav-link.active {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.22), rgba(74, 222, 128, 0.11));
+  border-color: rgba(74, 222, 128, 0.42);
+  color: #dcfce7;
   box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.15) inset,
-    0 4px 12px rgba(34, 197, 94, 0.2);
+    0 0 0 1px rgba(74, 222, 128, 0.18) inset,
+    0 4px 18px rgba(34, 197, 94, 0.24);
 }
 
-.menu a::after,
-.menu span::after {
-  background: linear-gradient(90deg, #16a34a, #22c55e, #4ade80);
-  height: 3px;
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
-}
-
-/* Modal refinements */
+/* ─── Modal ──────────────────────────────────────── */
 .modal,
 .training-modal {
   box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.15) inset,
-    0 40px 100px rgba(2, 6, 23, 0.75),
-    0 10px 30px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(32px) saturate(150%);
+    0 0 0 1px rgba(74, 222, 128, 0.14) inset,
+    0 56px 130px rgba(2, 6, 23, 0.82),
+    0 18px 56px rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(40px) saturate(170%);
 }
 
 .modal-overlay,
 .training-modal-overlay {
-  backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(135%);
+  background: rgba(2, 6, 23, 0.78);
 }
 
-/* Input field elegance */
+.close-btn:hover {
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.44) inset, 0 4px 18px rgba(239, 68, 68, 0.32);
+}
+
+/* ─── Ask / search section ───────────────────────── */
+.ask-fancy {
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.14), transparent 42%),
+    rgba(15, 23, 42, 0.60);
+  border-color: rgba(74, 222, 128, 0.20);
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.10) inset,
+    0 22px 60px rgba(2, 6, 23, 0.45);
+}
+
 .ask-section textarea {
   box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.15) inset,
-    0 8px 24px rgba(2, 6, 23, 0.3);
-  backdrop-filter: blur(16px) saturate(140%);
+    0 0 0 1px rgba(74, 222, 128, 0.12) inset,
+    0 8px 30px rgba(2, 6, 23, 0.38);
+  backdrop-filter: blur(22px) saturate(160%);
+  font-family: inherit;
+  font-size: 15.5px;
+  line-height: 1.65;
 }
 
 .ask-section textarea:focus {
   box-shadow:
-    0 0 0 2px rgba(74, 222, 128, 0.3) inset,
-    0 0 0 4px rgba(34, 197, 94, 0.15),
-    0 12px 32px rgba(2, 6, 23, 0.4);
+    0 0 0 2px rgba(74, 222, 128, 0.34) inset,
+    0 0 0 6px rgba(34, 197, 94, 0.12),
+    0 16px 44px rgba(2, 6, 23, 0.48);
 }
 
-/* Answer cards premium look */
-.short-card,
-.long-card {
+/* ─── Prompt chips ───────────────────────────────── */
+.prompt-chip {
+  backdrop-filter: blur(14px);
   box-shadow:
-    0 0 0 1px rgba(74, 222, 128, 0.12) inset,
-    0 16px 40px rgba(2, 6, 23, 0.4),
-    0 4px 12px rgba(34, 197, 94, 0.15);
+    0 2px 10px rgba(2, 6, 23, 0.30),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
 }
 
-.short-card::before,
-.long-card::before {
-  box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
-}
-
-/* Favorite heart enhancement */
-.favorite-heart {
-  backdrop-filter: blur(12px);
+.prompt-chip:hover {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-    0 4px 12px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    0 5px 18px rgba(34, 197, 94, 0.24),
+    0 0 0 1px rgba(74, 222, 128, 0.18) inset;
+  transform: translateY(-2px);
 }
 
-.favorite-heart:hover {
-  transform: scale(1.15);
+/* ─── Hero stats ─────────────────────────────────── */
+.hero-stats > div {
+  backdrop-filter: blur(18px);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.25) inset,
-    0 6px 18px rgba(0, 0, 0, 0.5);
+    0 0 0 1px rgba(255, 255, 255, 0.055) inset,
+    0 8px 26px rgba(2, 6, 23, 0.38);
+  transition: transform 0.28s cubic-bezier(0.34, 1.1, 0.64, 1), box-shadow 0.28s ease;
 }
 
-.favorite-heart.is-favorite {
-  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(239, 68, 68, 0.15));
+.hero-stats > div:hover {
+  transform: translateY(-4px);
   box-shadow:
-    0 0 0 1px rgba(248, 113, 113, 0.4) inset,
-    0 4px 16px rgba(239, 68, 68, 0.4),
-    0 0 20px rgba(248, 113, 113, 0.3);
+    0 0 0 1px rgba(74, 222, 128, 0.20) inset,
+    0 14px 38px rgba(2, 6, 23, 0.50),
+    0 4px 14px rgba(34, 197, 94, 0.20);
 }
 
-/* Training chips elegance */
-.training-chip-duration,
-.training-chip-level {
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 2px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
+/* ─── Exercise image hover ───────────────────────── */
+.exercise-card:hover img {
+  transform: scale(1.13);
+  filter: brightness(1.06) contrast(1.04);
 }
 
-/* Scroll enhancements */
-.modal::-webkit-scrollbar-thumb,
-.training-modal::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #16a34a, #22c55e, #4ade80);
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+/* ─── Training card level accents ────────────────── */
+.training-card {
+  backdrop-filter: blur(18px) saturate(145%);
+  overflow: hidden;
 }
 
-/* Animation keyframes */
-@keyframes buttonGlow {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.training-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(90deg, #22c55e, #4ade80, #22c55e);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.55);
+  z-index: 2;
 }
 
-@keyframes shimmerSweep {
-  0% {
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
-  }
+.training-level-intermediate::before {
+  background: linear-gradient(90deg, #f59e0b, #fcd34d, #f59e0b);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.55);
 }
 
-@keyframes floatGlowA {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.4;
-  }
-  33% {
-    transform: translate3d(50px, 30px, 0) scale(1.08);
-    opacity: 0.5;
-  }
-  66% {
-    transform: translate3d(-30px, 50px, 0) scale(0.95);
-    opacity: 0.35;
-  }
+.training-level-all-levels::before {
+  background: linear-gradient(90deg, #a78bfa, #c4b5fd, #a78bfa);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  box-shadow: 0 0 14px rgba(167, 139, 250, 0.55);
 }
 
-@keyframes floatGlowB {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.4;
-  }
-  40% {
-    transform: translate3d(-40px, -30px, 0) scale(1.05);
-    opacity: 0.48;
-  }
-  80% {
-    transform: translate3d(30px, -40px, 0) scale(0.92);
-    opacity: 0.32;
-  }
-}
-
+/* ─── Staggered card entrance ────────────────────── */
 @keyframes cardRise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(20px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Responsive refinements */
+.grid > .exercise-card,
+.training-grid > .training-card,
+.my-plan-grid > .my-plan-card {
+  animation: cardRise 0.48s cubic-bezier(0.34, 1.04, 0.64, 1) both;
+}
+
+.grid > .exercise-card:nth-child(1),  .training-grid > .training-card:nth-child(1)  { animation-delay: 0.04s; }
+.grid > .exercise-card:nth-child(2),  .training-grid > .training-card:nth-child(2)  { animation-delay: 0.10s; }
+.grid > .exercise-card:nth-child(3),  .training-grid > .training-card:nth-child(3)  { animation-delay: 0.16s; }
+.grid > .exercise-card:nth-child(4),  .training-grid > .training-card:nth-child(4)  { animation-delay: 0.22s; }
+.grid > .exercise-card:nth-child(5),  .training-grid > .training-card:nth-child(5)  { animation-delay: 0.27s; }
+.grid > .exercise-card:nth-child(6),  .training-grid > .training-card:nth-child(6)  { animation-delay: 0.32s; }
+.grid > .exercise-card:nth-child(7),  .training-grid > .training-card:nth-child(7)  { animation-delay: 0.36s; }
+.grid > .exercise-card:nth-child(8),  .training-grid > .training-card:nth-child(8)  { animation-delay: 0.40s; }
+.grid > .exercise-card:nth-child(n+9) { animation-delay: 0.44s; }
+.training-grid > .training-card:nth-child(n+9) { animation-delay: 0.44s; }
+
+/* Answer stack entrance */
+.answer-stack {
+  animation: cardRise 0.42s cubic-bezier(0.34, 1.04, 0.64, 1) both 0.08s;
+}
+
+/* ─── Video section ──────────────────────────────── */
+.video-frame {
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.16) inset,
+    0 28px 64px rgba(2, 6, 23, 0.58);
+}
+
+.video-section {
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 8px 28px rgba(2, 6, 23, 0.32);
+}
+
+/* ─── Toast ──────────────────────────────────────── */
+.answer-toast {
+  backdrop-filter: blur(32px) saturate(190%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.10) inset,
+    0 24px 70px rgba(2, 6, 23, 0.65);
+}
+
+/* ─── Loading banner ─────────────────────────────── */
+.loading-banner {
+  backdrop-filter: blur(28px) saturate(170%);
+  box-shadow:
+    0 -1px 0 rgba(74, 222, 128, 0.22),
+    0 -24px 56px rgba(2, 6, 23, 0.55);
+}
+
+/* ─── Scrollbar ──────────────────────────────────── */
+.modal::-webkit-scrollbar-thumb,
+.training-modal::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #15803d, #22c55e, #4ade80);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.55);
+}
+
+/* ─── Responsive reductions ──────────────────────── */
 @media (max-width: 768px) {
   .app::before,
   .app::after {
-    width: 280px;
-    height: 280px;
-    filter: blur(60px);
-    opacity: 0.28;
+    width: 300px;
+    height: 300px;
+    filter: blur(75px);
+    opacity: 0.20;
   }
 
-  .card,
-  .exercise-card,
-  .training-card,
-  .my-plan-card {
-    box-shadow:
-      0 0 0 1px rgba(74, 222, 128, 0.08) inset,
-      0 12px 32px rgba(2, 6, 23, 0.35),
-      0 2px 8px rgba(34, 197, 94, 0.1);
-  }
-
-  .navbar {
-    backdrop-filter: blur(20px) saturate(150%);
+  .hero::before {
+    width: 260px;
+    height: 260px;
+    filter: blur(65px);
   }
 }
 
 @media (max-width: 640px) {
-  .hero::after {
-    margin-top: 16px;
-  }
-
   .card,
   .training-card,
   .my-plan-card,
   .exercise-card {
-    border-radius: 14px;
+    border-radius: 16px;
   }
 
   .modal,
   .training-modal {
-    backdrop-filter: blur(20px) saturate(130%);
+    backdrop-filter: blur(24px) saturate(145%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .app::before,
   .app::after,
+  .hero::before,
   .save-btn,
   .ask-section button,
   .favorites-toggle-btn,
   .save-btn::after,
-  .ask-section button::after {
-    animation: none;
-  }
-
-  .card,
-  .exercise-card,
-  .training-card,
-  .my-plan-card {
-    transition: none;
-  }
-
+  .ask-section button::after,
   .grid > .exercise-card,
   .training-grid > .training-card,
-  .my-plan-grid > .my-plan-card {
-    animation: none;
+  .my-plan-grid > .my-plan-card,
+  .answer-stack,
+  .training-card::before,
+  .short-card::before,
+  .long-card::before {
+    animation: none !important;
+    transition: none !important;
   }
+}
+
+/* ─── Keyframes ──────────────────────────────────── */
+@keyframes buttonGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+@keyframes shimmerSweep {
+  0%   { transform: translateX(-110%) translateY(-110%) rotate(45deg); }
+  100% { transform: translateX(110%)  translateY(110%)  rotate(45deg); }
+}
+
+@keyframes floatGlowA {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1);       opacity: 0.26; }
+  33%       { transform: translate3d(60px, 38px, 0) scale(1.12);  opacity: 0.34; }
+  66%       { transform: translate3d(-34px, 58px, 0) scale(0.92); opacity: 0.20; }
+}
+
+@keyframes floatGlowB {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1);       opacity: 0.26; }
+  40%       { transform: translate3d(-48px, -34px, 0) scale(1.08); opacity: 0.34; }
+  80%       { transform: translate3d(36px, -48px, 0) scale(0.90);  opacity: 0.20; }
 }

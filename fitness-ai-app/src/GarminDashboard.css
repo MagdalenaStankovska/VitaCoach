@@ -1,0 +1,145 @@
+.garmin-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 16px 42px;
+  color: #e5e7eb;
+}
+
+.garmin-header {
+  margin-bottom: 20px;
+}
+
+.garmin-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(74, 222, 128, 0.16);
+  color: #86efac;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.garmin-header h1 {
+  margin: 12px 0 8px;
+  font-size: 34px;
+}
+
+.garmin-header p {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.garmin-panel {
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid #1f2937;
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 16px;
+}
+
+.garmin-connect-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.garmin-connect-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.garmin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.garmin-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.garmin-form input {
+  border: 1px solid #374151;
+  background: #0f172a;
+  color: #f9fafb;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.garmin-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.garmin-card {
+  border-radius: 14px;
+  background: #111827;
+  border: 1px solid #1f2937;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.garmin-card span {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.garmin-card strong {
+  color: #dcfce7;
+  font-size: 22px;
+}
+
+.garmin-activities {
+  display: grid;
+  gap: 10px;
+}
+
+.garmin-activity {
+  border: 1px solid #263245;
+  background: #0f172a;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.garmin-activity h4 {
+  margin: 0 0 6px;
+  color: #d1fae5;
+}
+
+.garmin-activity p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.garmin-activity-metrics {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.garmin-muted {
+  color: #9ca3af;
+}
+
+.garmin-error {
+  margin: 4px 0 0;
+  color: #fca5a5;
+  font-weight: 600;
+}
+

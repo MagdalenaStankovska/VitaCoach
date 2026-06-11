@@ -3,13 +3,27 @@ import { NavLink } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import Navbar from "./Navbar.jsx";
 import { setPlanMedia } from "./lib/planMediaStore.js";
+import { fetchUserPlan, saveUserPlan } from "./lib/api.js";
+import { useAuth } from "./auth/AuthContext.jsx";
 
 const promptIdeas = [
     "Build stronger legs with dumbbells",
     "Best exercises for core strength",
     "Workout for fat loss at home",
     "How do I improve posture and core stability?",
+    "I only have 20 minutes per day - what should I do?",
+    "Create a beginner weekly workout split for me",
+    "How can I gain muscle without gaining too much fat?",
+    "Give me a low-impact plan for knee pain",
+    "How many rest days should I take each week?",
+    "What should I eat before and after training?",
+    "Can you make a home workout with no equipment?",
+    "How do I break a workout plateau safely?",
+    "Design a 4-week plan to improve endurance",
+    "What warm-up should I do before leg day?",
 ];
+
+const VISIBLE_PROMPTS = 4;
 
 // ─── strip large base64 images before persisting to localStorage ─────────────
 function stripImages(exercises) {
@@ -19,6 +33,153 @@ function stripImages(exercises) {
 // Module-level cache — keeps the last full API response including images
 // so if user navigates away and comes back, images are still available
 let _lastFullResponse = null;
+
+function shuffleArray(items) {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+}
+
+function getRandomPrompts(count = VISIBLE_PROMPTS) {
+    return shuffleArray(promptIdeas).slice(0, count);
+}
+
+// Keywords that mark each section – order matters for the regex alternation
+const QUICK_KEYWORDS  = "short answer|quick advice|summary|in short";
+const DETAIL_KEYWORDS = "full plan|detailed answer|detailed plan|plan details|full answer|workout plan|training plan";
+
+// Matches a section header line/inline regardless of surrounding **, ##, 1), etc.
+// e.g.  "SHORT ANSWER:", "**Short Answer:**", "## Full Plan", "1) Detailed Answer:"
+const QUICK_RE  = new RegExp(
+    "(?:^|\\n)[\\t ]*(?:\\*{1,2}|#{1,6}[\\t ]*)?[\\t ]*(?:\\d+[.)][\\t ]*)?(?:" + QUICK_KEYWORDS  + ")[\\t ]*(?:\\*{1,2})?[\\t ]*:?[\\t ]*",
+    "i"
+);
+const DETAIL_RE = new RegExp(
+    "(?:^|\\n)[\\t ]*(?:\\*{1,2}|#{1,6}[\\t ]*)?[\\t ]*(?:\\d+[.)][\\t ]*)?(?:" + DETAIL_KEYWORDS + ")[\\t ]*(?:\\*{1,2})?[\\t ]*:?[\\t ]*",
+    "i"
+);
+
+function splitAnswerSections(rawAnswer) {
+    const text = (rawAnswer || "").replace(/\r\n/g, "\n").trim();
+    if (!text) return { quickAdvice: "", fullPlan: "" };
+
+    const qm = QUICK_RE.exec(text);
+    const dm = DETAIL_RE.exec(text);
+
+    if (qm && dm) {
+        const qStart = qm.index + qm[0].length;
+        const dStart = dm.index + dm[0].length;
+        if (qStart <= dStart) {
+            // Normal order: SHORT ANSWER … FULL PLAN …
+            return {
+                quickAdvice: text.slice(qStart, dm.index).trim(),
+                fullPlan:    text.slice(dStart).trim(),
+            };
+        }
+        // Reversed (unusual): FULL PLAN … SHORT ANSWER …
+        return {
+            quickAdvice: text.slice(qStart).trim(),
+            fullPlan:    text.slice(dStart, qm.index).trim(),
+        };
+    }
+
+    if (qm) {
+        // Only a quick section found – use its content as quick advice, full text as plan
+        return {
+            quickAdvice: text.slice(qm.index + qm[0].length).trim(),
+            fullPlan:    text.trim(),
+        };
+    }
+
+    if (dm) {
+        // Only a detail section found – everything before it becomes the quick advice
+        const before   = text.slice(0, dm.index).trim();
+        const fullPlan = text.slice(dm.index + dm[0].length).trim();
+        return {
+            quickAdvice: before || fullPlan.split(/\n\s*\n/)[0].trim(),
+            fullPlan,
+        };
+    }
+
+    // Last resort: first paragraph = quick advice, remainder = full plan
+    const blocks = text.split(/\n\s*\n+/).map((b) => b.trim()).filter(Boolean);
+    if (blocks.length === 1) return { quickAdvice: blocks[0], fullPlan: blocks[0] };
+    return {
+        quickAdvice: blocks[0],
+        fullPlan:    blocks.slice(1).join("\n\n"),
+    };
+}
+
+// Section labels to strip from displayed content (case-insensitive, whole line)
+const SECTION_LABEL_RE = new RegExp(
+    "^[\\t ]*(?:\\*{1,2}|#{1,6}[\\t ]*)?[\\t ]*(?:\\d+[.)][\\t ]*)?(?:" +
+    QUICK_KEYWORDS + "|" + DETAIL_KEYWORDS +
+    ")[\\t ]*(?:\\*{1,2})?[\\t ]*:?[\\t ]*$",
+    "gim"
+);
+
+function cleanDisplayText(text) {
+    return (text || "")
+        .replace(/\r\n/g, "\n")
+        .replace(/\*\*/g, "")
+        .replace(/__/g, "")
+        .replace(/^\s{0,3}#{1,6}\s*/gm, "")
+        .replace(/^>\s?/gm, "")
+        .replace(SECTION_LABEL_RE, "")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+}
+
+function buildAnswerBlocks(text) {
+    const cleaned = cleanDisplayText(text);
+    if (!cleaned) return [];
+
+    const listPattern = /^([-*•]\s+|\d+[.)]\s+)/;
+    const titlePattern = /^[A-Za-z][A-Za-z\s/&-]{1,40}:$/;
+
+    return cleaned
+        .split(/\n\s*\n+/)
+        .map((block) => block.trim())
+        .filter(Boolean)
+        .map((block) => {
+            const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+            if (lines.length === 0) return null;
+
+            if (titlePattern.test(lines[0]) && lines.length > 1) {
+                const title = lines[0].replace(/:$/, "");
+                const contentLines = lines.slice(1);
+                if (contentLines.every((line) => listPattern.test(line))) {
+                    return {
+                        type: "section-list",
+                        title,
+                        items: contentLines.map((line) => line.replace(listPattern, "").trim()),
+                    };
+                }
+
+                return {
+                    type: "section-text",
+                    title,
+                    text: contentLines.join(" "),
+                };
+            }
+
+            if (lines.every((line) => listPattern.test(line))) {
+                return {
+                    type: "list",
+                    items: lines.map((line) => line.replace(listPattern, "").trim()),
+                };
+            }
+
+            return {
+                type: "text",
+                text: lines.join(" "),
+            };
+        })
+        .filter(Boolean);
+}
 
 // ─── background fetch helper ─────────────────────────────────────────────────
 function runBackgroundAsk(question, onDone) {
@@ -58,6 +219,7 @@ function runBackgroundAsk(question, onDone) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+    const { isAuthenticated, token } = useAuth();
     const [question, setQuestion] = useState(() => localStorage.getItem("aiQuestion") || "");
     const [answer, setAnswer] = useState(() => _lastFullResponse?.answer || localStorage.getItem("aiAnswer") || "");
     const [exercises, setExercises] = useState(() => {
@@ -68,9 +230,10 @@ export default function Home() {
     const [loading, setLoading] = useState(
         () => !!sessionStorage.getItem("pendingRequestId")
     );
-    const [toast, setToast] = useState(""); // "Answer is ready!" notification
+    const [toast, setToast] = useState(null);
     const [showVideo, setShowVideo] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [suggestedPrompts, setSuggestedPrompts] = useState(() => getRandomPrompts());
 
     const mountedRef = useRef(true);
     const toastTimer = useRef(null);
@@ -102,7 +265,7 @@ export default function Home() {
                 try { setExercises(JSON.parse(localStorage.getItem("aiExercises") || "[]")); } catch { setExercises([]); }
             }
             setLoading(false);
-            showToast("✅ Your answer is ready!");
+            showToast("Your answer is ready!", "success", "AI update");
         }
 
         // If we only have stripped localStorage exercises (no images), refresh once from backend.
@@ -123,7 +286,7 @@ export default function Home() {
                     if (mountedRef.current) {
                         setAnswer(data.answer || storedAnswer);
                         setExercises(data.exercises || []);
-                        showToast("✅ Exercises refreshed with images");
+                        showToast("Exercises refreshed with images.", "success", "Exercise sync");
                     }
                     // Keep localStorage lightweight
                     localStorage.setItem("aiAnswer", data.answer || storedAnswer);
@@ -148,24 +311,28 @@ export default function Home() {
         }
     }, [answer, exercises]);
 
-    function showToast(msg) {
-        setToast(msg);
+    function showToast(message, type = "success", title = "VitaCoach") {
+        setToast({ message, type, title });
         clearTimeout(toastTimer.current);
-        toastTimer.current = setTimeout(() => setToast(""), 4000);
+        toastTimer.current = setTimeout(() => setToast(null), 4000);
     }
 
     // Persist question
     useEffect(() => { localStorage.setItem("aiQuestion", question); }, [question]);
 
-    const shortAnswer = answer
-        ? (answer.split("\n\n")[0] || answer).replace(/\s+/g, " ").trim()
-        : "";
+    const { quickAdvice: shortAnswer, fullPlan: fullPlanAnswer } = splitAnswerSections(answer);
+    const cleanShortAnswer = cleanDisplayText(shortAnswer);
+    const cleanFullPlanAnswer = cleanDisplayText(fullPlanAnswer);
+    const quickAdviceBlocks = buildAnswerBlocks(shortAnswer);
+    const fullPlanBlocks = buildAnswerBlocks(fullPlanAnswer);
+
+    const refreshSuggestedPrompts = () => setSuggestedPrompts(getRandomPrompts());
 
     const askAI = () => {
         if (!question.trim()) return;
 
         setLoading(true);
-        setToast("");
+        setToast(null);
         setSelectedExercise(null);
         setShowVideo(false);
         // Keep old answer visible while loading – don't clear it
@@ -182,7 +349,8 @@ export default function Home() {
             }
             if (mountedRef.current) {
                 setLoading(false);
-                showToast("✅ Answer updated!");
+                showToast("Answer updated!", "success", "AI update");
+                refreshSuggestedPrompts();
             }
         });
     };
@@ -227,7 +395,7 @@ export default function Home() {
         y += 18;
 
         doc.setFont("helvetica", "normal");
-        writeWrapped(answer);
+        writeWrapped(cleanFullPlanAnswer || cleanDisplayText(answer));
         y += 8;
 
         if (exercises.length > 0) {
@@ -251,12 +419,24 @@ export default function Home() {
     };
 
     const saveToPlan = async (exercise) => {
+        if (!isAuthenticated || !token) {
+            showToast("Please log in to save exercises to your plan.", "warning", "Login required");
+            return;
+        }
+
         const displayName = exercise.raw || exercise.name;
         let current = [];
-        try { current = JSON.parse(localStorage.getItem("myPlan") || "[]"); } catch { current = []; }
+
+        try {
+            const response = await fetchUserPlan(token);
+            current = Array.isArray(response.items) ? response.items : [];
+        } catch (e) {
+            showToast(e.message || "Could not load your saved plan.", "error", "Save failed");
+            return;
+        }
 
         if (current.find((e) => (e.raw || e.name) === displayName)) {
-            alert("Already in your plan 👍");
+            showToast("This exercise is already saved in My Plan.", "warning", "Already saved");
             return;
         }
 
@@ -269,7 +449,7 @@ export default function Home() {
         };
 
         try {
-            localStorage.setItem("myPlan", JSON.stringify([...current, item]));
+            await saveUserPlan(token, [...current, item]);
 
             // Best-effort media persistence so cards survive full browser refresh.
             await setPlanMedia(displayName, {
@@ -278,12 +458,12 @@ export default function Home() {
                 video: exercise.video || "",
             });
 
-            alert("Saved to My Plan 💚");
+            showToast(`${exercise.label || exercise.name} was added to My Plan.`, "success", "Saved successfully");
         } catch (e) {
             if (e.name === "QuotaExceededError") {
-                alert("Your plan storage is full. Go to My Plan and remove some exercises first.");
+                showToast("Your plan storage is full. Remove a few saved exercises, then try again.", "error", "Storage full");
             } else {
-                alert("Could not save: " + e.message);
+                showToast(`Could not save this exercise: ${e.message}`, "error", "Save failed");
             }
         }
     };
@@ -293,17 +473,30 @@ export default function Home() {
             <Navbar />
 
             {/* TOAST */}
-            {toast && <div className="answer-toast">{toast}</div>}
+            {toast && (
+                <div className={`answer-toast answer-toast-${toast.type}`} role="status" aria-live="polite">
+                    <div className="answer-toast-icon" aria-hidden="true">
+                        {toast.type === "error" ? "⚠️" : toast.type === "warning" ? "📌" : "💚"}
+                    </div>
+                    <div className="answer-toast-copy">
+                        <strong>{toast.title}</strong>
+                        <span>{toast.message}</span>
+                    </div>
+                    <button type="button" className="answer-toast-close" onClick={() => setToast(null)}>
+                        ✕
+                    </button>
+                </div>
+            )}
 
             {/* HERO */}
             <div className="hero hero-premium">
-                <span className="hero-badge">AI fitness studio</span>
+                <span className="hero-badge">✦ AI fitness studio</span>
                 <h1>Train smarter with AI</h1>
-                <p>Your personalized fitness coach — ask a question, browse freely, come back to your plan.</p>
+                <p>Your personalized fitness coach — ask anything, get a plan, train better.</p>
                 <div className="hero-stats">
-                    <div><strong>8</strong><span>RAG exercise picks</span></div>
-                    <div><strong>Live</strong><span>Generates in background</span></div>
-                    <div><strong>Visual</strong><span>Image + matched video</span></div>
+                    <div><strong>8</strong><span>Exercises per answer</span></div>
+                    <div><strong>Live</strong><span>Background generation</span></div>
+                    <div><strong>Visual</strong><span>Image + video guides</span></div>
                 </div>
             </div>
 
@@ -341,7 +534,7 @@ export default function Home() {
 
             {/* PROMPT CHIPS */}
             <div className="prompt-chip-row">
-                {promptIdeas.map((idea) => (
+                {suggestedPrompts.map((idea) => (
                     <button
                         key={idea}
                         type="button"
@@ -367,12 +560,42 @@ export default function Home() {
 
                     <div className={`card short-card${loading ? " card-stale" : ""}`}>
                         <h3>💡 Quick Advice</h3>
-                        <p>{shortAnswer}</p>
+                        <div className="answer-body answer-body-quick">
+                            {quickAdviceBlocks.length > 0 ? quickAdviceBlocks.map((block, index) => (
+                                <div key={`quick-${index}`} className="answer-block answer-block-quick">
+                                    {block.title && <h4 className="answer-block-title">{block.title}</h4>}
+                                    {block.items ? (
+                                        <ul className="answer-list">
+                                            {block.items.map((item, itemIndex) => (
+                                                <li key={`quick-item-${itemIndex}`}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="answer-paragraph">{block.text}</p>
+                                    )}
+                                </div>
+                            )) : <p className="answer-paragraph">{cleanShortAnswer}</p>}
+                        </div>
                     </div>
 
                     <div className={`card long-card${loading ? " card-stale" : ""}`}>
                         <h3>📋 Full Plan</h3>
-                        <p style={{ whiteSpace: "pre-wrap" }}>{answer}</p>
+                        <div className="answer-body answer-body-plan">
+                            {fullPlanBlocks.length > 0 ? fullPlanBlocks.map((block, index) => (
+                                <div key={`plan-${index}`} className="answer-block">
+                                    {block.title && <h4 className="answer-block-title">{block.title}</h4>}
+                                    {block.items ? (
+                                        <ul className="answer-list">
+                                            {block.items.map((item, itemIndex) => (
+                                                <li key={`plan-item-${itemIndex}`}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="answer-paragraph">{block.text}</p>
+                                    )}
+                                </div>
+                            )) : <p className="answer-paragraph">{cleanFullPlanAnswer}</p>}
+                        </div>
                     </div>
 
                     <div style={{ textAlign: "center", marginTop: "20px" }}>
@@ -416,54 +639,68 @@ export default function Home() {
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <button className="close-btn" onClick={() => { setSelectedExercise(null); setShowVideo(false); }}>✖</button>
 
-                        {/* Clean label as heading */}
-                        <h2>{selectedExercise.label || selectedExercise.name}</h2>
+                        <div className="modal-header">
+                            <span className="modal-kicker">Exercise spotlight</span>
+                            <h2>{selectedExercise.label || selectedExercise.name}</h2>
+                        </div>
 
                         {/* Images */}
                         <div className="modal-images">
-                            {selectedExercise.images && selectedExercise.images.filter(Boolean).map((img, i) => (
-                                <img key={i} src={img} alt={selectedExercise.label || selectedExercise.name} className="modal-img" />
-                            ))}
+                            {selectedExercise.images && selectedExercise.images.filter(Boolean).length > 0 ? (
+                                selectedExercise.images.filter(Boolean).map((img, i) => (
+                                    <img key={i} src={img} alt={selectedExercise.label || selectedExercise.name} className="modal-img" />
+                                ))
+                            ) : (
+                                <div className="modal-image-placeholder">No preview image available</div>
+                            )}
                         </div>
 
                         {/* Full RAG sentence as description */}
-                        <p className="desc">{selectedExercise.raw}</p>
+                        <div className="modal-copy">
+                            <p className="desc">{selectedExercise.raw}</p>
+                        </div>
 
                         {/* VIDEO — toggle button, then iframe */}
                         <div className="video-section">
-                            <button
-                                className="small-video-btn"
-                                onClick={() => setShowVideo((v) => !v)}
-                            >
-                                {showVideo ? "🙈 Hide video" : "🎥 Need help? Watch video"}
-                            </button>
+                            <div className="video-section-header">
+                                <span className="video-section-kicker">Form support</span>
+                                <button
+                                    className="small-video-btn"
+                                    onClick={() => setShowVideo((v) => !v)}
+                                >
+                                    {showVideo ? "🙈 Hide video" : "🎥 Watch tutorial"}
+                                </button>
+                            </div>
 
                             {showVideo && selectedExercise.video && !selectedExercise.video.includes("youtube.com/results?") && (
-                                <iframe
-                                    className="video-small"
-                                    src={`${selectedExercise.video}?rel=0&modestbranding=1`}
-                                    title={`${selectedExercise.label || selectedExercise.name} tutorial`}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
+                                <div className="video-frame">
+                                    <iframe
+                                        className="video-small"
+                                        src={`${selectedExercise.video}?rel=0&modestbranding=1`}
+                                        title={`${selectedExercise.label || selectedExercise.name} tutorial`}
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                </div>
                             )}
 
                             {showVideo && selectedExercise.video && selectedExercise.video.includes("youtube.com/results?") && (
                                 <a
-                                    className="save-btn"
+                                    className="save-btn modal-link-btn"
                                     href={selectedExercise.video}
                                     target="_blank"
                                     rel="noreferrer"
-                                    style={{ marginTop: "12px", display: "inline-block", textDecoration: "none", width: "auto", padding: "10px 16px" }}
                                 >
                                     Open matching YouTube results
                                 </a>
                             )}
                         </div>
 
-                        <button className="save-btn" onClick={() => saveToPlan(selectedExercise)}>
-                            💚 Save to My Plan
-                        </button>
+                        <div className="modal-actions">
+                            <button className="save-btn" onClick={() => saveToPlan(selectedExercise)}>
+                                💚 Save to My Plan
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

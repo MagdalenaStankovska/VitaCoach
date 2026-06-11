@@ -16,5 +16,23 @@ build/
 .idea/
 .vscode/
 
+
+# Browser profiles
+korpa_profile/
+sportmaster_profile/
+
+# Scraped datasets
+gyms_dataset.json
+restaurants_dataset.json
+
+# Python
+__pycache__/
+*.pyc
 # OS
 .DS_Store
+
+# Scraper / browser data (VERY IMPORTANT)
+fitness-rag-backend/korpa_profile/
+data/users.json
+data/plans.json
+*.bak

@@ -1,24 +1,42 @@
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build
 dist
 dist-ssr
-*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+
+# Environment
+.env
+.env.*
+
+# User data
+data/users.json
+data/plans.json
+*.bak
+
+# Browser profiles
+korpa_profile/
+sportmaster_profile/
+
+# Scraped datasets
+gyms_dataset.json
+restaurants_dataset.json
+
+# Python
+__pycache__/
+*.pyc

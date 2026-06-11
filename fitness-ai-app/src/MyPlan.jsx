@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import { NavLink } from "react-router-dom";
 import Navbar from "./Navbar.jsx";
 import { clearPlanMedia, deletePlanMedia, getManyPlanMedia, setPlanMedia } from "./lib/planMediaStore.js";
+import { fetchUserPlan, saveUserPlan } from "./lib/api.js";
+import { useAuth } from "./auth/AuthContext.jsx";
 
 const API_BASE = "http://127.0.0.1:9000";
 
@@ -12,38 +15,53 @@ function exerciseKey(ex) {
 }
 
 function stripPlanMedia(items) {
-    return (items || []).map(({ images: _images, ...rest }) => ({ ...rest }));
+    return (items || []).map((item) => {
+        const copy = { ...item };
+        delete copy.images;
+        return copy;
+    });
+}
+
+function favoritesStorageKey(userId) {
+    return `favoriteExercises:${userId || "guest"}`;
 }
 
 export default function MyPlan() {
-    const [plan, setPlan] = useState(() => {
-        let stored = [];
-        try { stored = JSON.parse(localStorage.getItem("myPlan") || "[]"); }
-        catch { stored = []; }
-
-        return stored.map((ex) => {
-            const cached = PLAN_MEDIA_CACHE.get(exerciseKey(ex));
-            return cached
-                ? { ...ex, images: ex.images?.length ? ex.images : cached.images, video: ex.video || cached.video, label: ex.label || cached.label }
-                : ex;
-        });
-    });
-    const [favorites, setFavorites] = useState(() => {
-        try { return JSON.parse(localStorage.getItem("favoriteExercises") || "[]"); }
-        catch { return []; }
-    });
+    const { isAuthenticated, token, user, initializing } = useAuth();
+    const [plan, setPlan] = useState([]);
+    const [favorites, setFavorites] = useState([]);
     const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
     const [showVideo, setShowVideo] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         let cancelled = false;
 
+        if (!isAuthenticated || !token) {
+            setPlan([]);
+            setFavorites([]);
+            setLoading(false);
+            setError("");
+            return () => { cancelled = true; };
+        }
+
         (async () => {
-            const storedPlan = (() => {
-                try { return JSON.parse(localStorage.getItem("myPlan") || "[]"); }
-                catch { return []; }
-            })();
+            setLoading(true);
+            setError("");
+
+            let storedPlan = [];
+            try {
+                const response = await fetchUserPlan(token);
+                storedPlan = Array.isArray(response.items) ? response.items : [];
+            } catch (loadError) {
+                if (!cancelled) {
+                    setError(loadError.message || "Could not load your saved plan.");
+                    setLoading(false);
+                }
+                return;
+            }
 
             const keys = storedPlan.map((ex) => exerciseKey(ex)).filter(Boolean);
             const persisted = await getManyPlanMedia(keys);
@@ -68,62 +86,85 @@ export default function MyPlan() {
             if (cancelled) return;
             setPlan(withCache);
 
+            try {
+                const storedFavorites = JSON.parse(localStorage.getItem(favoritesStorageKey(user?.id)) || "[]");
+                setFavorites(Array.isArray(storedFavorites) ? storedFavorites : []);
+            } catch {
+                setFavorites([]);
+            }
+
             // Recover missing image/video for saved items (images were intentionally stripped for quota safety).
             const needsRecovery = withCache.some((ex) => {
                 const hasImage = Array.isArray(ex.images) && ex.images.some(Boolean);
                 return !hasImage || !ex.video;
             });
 
-            if (!needsRecovery) return;
+            if (!needsRecovery) {
+                setLoading(false);
+                return;
+            }
 
-            const recovered = await Promise.all(withCache.map(async (ex) => {
-                const hasImage = Array.isArray(ex.images) && ex.images.some(Boolean);
-                const hasVideo = Boolean(ex.video);
-                if (hasImage && hasVideo) return ex;
+            try {
+                const recovered = await Promise.all(withCache.map(async (ex) => {
+                    const hasImage = Array.isArray(ex.images) && ex.images.some(Boolean);
+                    const hasVideo = Boolean(ex.video);
+                    if (hasImage && hasVideo) return ex;
 
-                const text = ex.raw || ex.name || "";
-                if (!text) return ex;
+                    const text = ex.raw || ex.name || "";
+                    if (!text) return ex;
 
-                try {
-                    const res = await fetch(`${API_BASE}/exercise-assets?text=${encodeURIComponent(text)}`);
-                    const media = await res.json();
-                    const merged = {
-                        ...ex,
-                        label: ex.label || media.label || ex.label,
-                        images: hasImage ? ex.images : (media.image ? [media.image] : []),
-                        video: hasVideo ? ex.video : media.video,
-                    };
-                    const mediaPayload = {
-                        label: merged.label,
-                        images: merged.images,
-                        video: merged.video,
-                    };
-                    PLAN_MEDIA_CACHE.set(exerciseKey(merged), mediaPayload);
-                    await setPlanMedia(exerciseKey(merged), mediaPayload);
-                    return merged;
-                } catch {
-                    return ex;
+                    try {
+                        const res = await fetch(`${API_BASE}/exercise-assets?text=${encodeURIComponent(text)}`);
+                        const media = await res.json();
+                        const merged = {
+                            ...ex,
+                            label: ex.label || media.label || ex.label,
+                            images: hasImage ? ex.images : (media.image ? [media.image] : []),
+                            video: hasVideo ? ex.video : media.video,
+                        };
+                        const mediaPayload = {
+                            label: merged.label,
+                            images: merged.images,
+                            video: merged.video,
+                        };
+                        PLAN_MEDIA_CACHE.set(exerciseKey(merged), mediaPayload);
+                        await setPlanMedia(exerciseKey(merged), mediaPayload);
+                        return merged;
+                    } catch {
+                        return ex;
+                    }
+                }));
+
+                if (cancelled) return;
+                setPlan(recovered);
+            } catch (recoveryError) {
+                if (!cancelled) {
+                    setError(recoveryError.message || "Could not refresh saved exercise media.");
                 }
-            }));
-
-            if (cancelled) return;
-            setPlan(recovered);
-            // Persist lightweight rows only; media is cached in-memory + IndexedDB.
-            localStorage.setItem("myPlan", JSON.stringify(stripPlanMedia(recovered)));
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
         })();
 
         return () => { cancelled = true; };
-    }, []);
+    }, [isAuthenticated, token, user?.id]);
 
     const getExerciseKey = (exercise) => exercise.raw || exercise.name;
 
-    const removeExercise = (index) => {
+    const removeExercise = async (index) => {
         const updated = [...plan];
         const removed = updated[index];
         updated.splice(index, 1);
 
-        setPlan(updated);
-        localStorage.setItem("myPlan", JSON.stringify(stripPlanMedia(updated)));
+        try {
+            await saveUserPlan(token, stripPlanMedia(updated));
+            setPlan(updated);
+        } catch (saveError) {
+            setError(saveError.message || "Could not update your plan.");
+            return;
+        }
 
         if (removed) {
             const removedKey = getExerciseKey(removed);
@@ -131,18 +172,24 @@ export default function MyPlan() {
             deletePlanMedia(removedKey);
             const updatedFavorites = favorites.filter((key) => key !== removedKey);
             setFavorites(updatedFavorites);
-            localStorage.setItem("favoriteExercises", JSON.stringify(updatedFavorites));
+            localStorage.setItem(favoritesStorageKey(user?.id), JSON.stringify(updatedFavorites));
         }
     };
 
-    const clearAll = () => {
-        localStorage.removeItem("myPlan");
-        localStorage.removeItem("favoriteExercises");
+    const clearAll = async () => {
+        try {
+            await saveUserPlan(token, []);
+        } catch (saveError) {
+            setError(saveError.message || "Could not clear your plan.");
+            return;
+        }
+
         PLAN_MEDIA_CACHE.clear();
         clearPlanMedia();
         setPlan([]);
         setFavorites([]);
         setShowFavoritesOnly(false);
+        localStorage.removeItem(favoritesStorageKey(user?.id));
     };
 
     const toggleFavorite = (exercise) => {
@@ -152,7 +199,7 @@ export default function MyPlan() {
             : [...favorites, key];
 
         setFavorites(updatedFavorites);
-        localStorage.setItem("favoriteExercises", JSON.stringify(updatedFavorites));
+        localStorage.setItem(favoritesStorageKey(user?.id), JSON.stringify(updatedFavorites));
     };
 
     const visiblePlan = useMemo(() => {
@@ -173,18 +220,101 @@ export default function MyPlan() {
         setShowVideo(false);
     };
 
+    if (!initializing && !isAuthenticated) {
+        return (
+            <div className="app">
+                <Navbar />
+
+                <div className="hero">
+                    <span className="hero-badge">✦ Personal collection</span>
+                    <h1>💚 My Training Plan</h1>
+                    <p>Log in to see the exercises saved in your private plan.</p>
+                </div>
+
+                <div className="card" style={{ textAlign: "center", padding: "48px 32px", maxWidth: "480px" }}>
+                    <div style={{ fontSize: "52px", marginBottom: "16px" }}>🔐</div>
+                    <h3 style={{ color: "#bbf7d0", marginBottom: "12px", fontSize: "20px" }}>Login required</h3>
+                    <p style={{ color: "#94a3b8", lineHeight: "1.7", marginBottom: "24px" }}>
+                        Each user has their own saved exercises and plan history.
+                    </p>
+                    <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+                        <NavLink
+                            to="/login"
+                            className="save-btn"
+                            style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
+                        >
+                            Log in
+                        </NavLink>
+                        <NavLink
+                            to="/register"
+                            className="clear-btn"
+                            style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
+                        >
+                            Register
+                        </NavLink>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="app">
             <Navbar />
 
             <div className="hero">
+                <span className="hero-badge">✦ Personal collection</span>
                 <h1>💚 My Training Plan</h1>
-                <p>Your saved exercises</p>
+                <p>Your hand-picked exercise collection — ready whenever you are</p>
+                {plan.length > 0 && (
+                    <div className="hero-stats">
+                        <div><strong>{plan.length}</strong><span>Exercises saved</span></div>
+                        <div><strong>{favorites.length}</strong><span>Favourites</span></div>
+                        <div><strong>PDF</strong><span>Downloadable</span></div>
+                    </div>
+                )}
             </div>
 
-            {plan.length === 0 ? (
-                <div className="card">
-                    <p>No exercises saved yet 😢</p>
+            {error && (
+                <div className="card" style={{ textAlign: "center", maxWidth: "620px" }}>
+                    <p style={{ color: "#fecaca" }}>{error}</p>
+                </div>
+            )}
+
+            {loading && plan.length === 0 ? (
+                <div className="card" style={{ textAlign: "center", padding: "48px 32px", maxWidth: "480px" }}>
+                    <div style={{ fontSize: "52px", marginBottom: "16px" }}>⏳</div>
+                    <h3 style={{ color: "#bbf7d0", marginBottom: "12px", fontSize: "20px" }}>Loading your saved plan</h3>
+                    <p style={{ color: "#94a3b8", lineHeight: "1.7" }}>
+                        We’re fetching the exercises saved in your account.
+                    </p>
+                </div>
+            ) : plan.length === 0 ? (
+                <div className="card" style={{ textAlign: "center", padding: "48px 32px", maxWidth: "480px" }}>
+                    <div style={{ fontSize: "52px", marginBottom: "16px" }}>🏋️</div>
+                    <h3 style={{ color: "#bbf7d0", marginBottom: "12px", fontSize: "20px" }}>No exercises saved yet</h3>
+                    <p style={{ color: "#94a3b8", lineHeight: "1.7", marginBottom: "24px" }}>
+                        Ask the AI Coach a question, then save any exercise that interests you.
+                        They'll all appear here.
+                    </p>
+                    <a
+                        href="/"
+                        style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            padding: "12px 24px",
+                            borderRadius: "14px",
+                            background: "linear-gradient(135deg, #16a34a, #22c55e)",
+                            color: "#fff",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                            textDecoration: "none",
+                            boxShadow: "0 6px 20px rgba(34,197,94,0.35)"
+                        }}
+                    >
+                        💚 Go to AI Coach
+                    </a>
                 </div>
             ) : (
                 <div className="exercise-wrapper my-plan-wrapper">

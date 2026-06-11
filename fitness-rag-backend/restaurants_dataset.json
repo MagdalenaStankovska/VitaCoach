@@ -1,0 +1,1416 @@
+[
+    {
+        "name": "Gelato Torti",
+        "url": "https://korpa.mk/partner/gelato-torti",
+        "address": "Internacionalni Brigadi 4, Skopje 1000, North Macedonia",
+        "latitude": 41.9979288,
+        "longitude": 21.4610119
+    },
+    {
+        "name": "Cardak",
+        "url": "https://korpa.mk/partner/cardak",
+        "address": "MK, Gjorgji Peshkov, Skopje 1000, North Macedonia",
+        "latitude": 42.0018793,
+        "longitude": 21.4222052
+    },
+    {
+        "name": "TeenyTajni",
+        "url": "https://korpa.mk/partner/teenytajni",
+        "address": "Orce Nikolov 83, Skopje 1000, North Macedonia",
+        "latitude": 42.000599,
+        "longitude": 21.424393
+    },
+    {
+        "name": "Proper Pizza Tetovo",
+        "url": "https://korpa.mk/partner/proper-pizza-tetovo",
+        "address": "2X6C+62H, Tetovo 1220, North Macedonia",
+        "latitude": 42.025291,
+        "longitude": 21.013425
+    },
+    {
+        "name": "Rebel Rebel",
+        "url": "https://korpa.mk/partner/rebel-rebel",
+        "address": "Naum Naumovski Borce 62, Skopje 1000, North Macedonia",
+        "latitude": 41.999834,
+        "longitude": 21.423311
+    },
+    {
+        "name": "Plaza De Toros",
+        "url": "https://korpa.mk/partner/plaza-de-toros",
+        "address": "Кеј 13-ти Ноември 16, Skopje 1010, North Macedonia",
+        "latitude": 41.995204,
+        "longitude": 21.435018
+    },
+    {
+        "name": "Panino Sandwich Shop",
+        "url": "https://korpa.mk/partner/panino-sandwich-shop",
+        "address": "Blvd. Partizanski Odredi 155-37/2, Skopje 1000, North Macedonia",
+        "latitude": 42.00806,
+        "longitude": 21.368934
+    },
+    {
+        "name": "Plaset Doner & Burger",
+        "url": "https://korpa.mk/partner/plaset-doner-burger",
+        "address": "Marshal Tito 5, Tetovo 1220, North Macedonia",
+        "latitude": 42.008609,
+        "longitude": 20.972772
+    },
+    {
+        "name": "Fluffy Mini Pancakes Aerodrom",
+        "url": "https://korpa.mk/partner/fluffy-mini-pancakes-aerodrom",
+        "address": "Boulevard Jane Sandanski 82, Skopje 1000, North Macedonia",
+        "latitude": 41.985048,
+        "longitude": 21.465852
+    },
+    {
+        "name": "Amigos Zeleznicka",
+        "url": "https://korpa.mk/partner/amigos-zeleznicka",
+        "address": "MK, Железничка no 31, Shkupi 1000, North Macedonia",
+        "latitude": 41.991335,
+        "longitude": 21.447925
+    },
+    {
+        "name": "Crispify",
+        "url": "https://korpa.mk/partner/crispify",
+        "address": "Skopski Pat 1, Tetovë 1200, North Macedonia",
+        "latitude": 42.004775,
+        "longitude": 20.989895
+    },
+    {
+        "name": "The Corner - English Pub & Restaurant",
+        "url": "https://korpa.mk/partner/the-corner-english-pub-restaurant",
+        "address": "2C4F+6P9, Leninova, Skopje 1000, North Macedonia",
+        "latitude": 41.998053,
+        "longitude": 21.426734
+    },
+    {
+        "name": "Teteks - Carsija",
+        "url": "https://korpa.mk/partner/teteks-carsija",
+        "address": "Chair, Skopje 1000, Покриена Чаршија br.125, Shkupi 1000, North Macedonia",
+        "latitude": 42.002921,
+        "longitude": 21.438762
+    },
+    {
+        "name": "Healthyish - Debar Maalo",
+        "url": "https://korpa.mk/partner/healthyish-debar-maalo",
+        "address": "Healthyish Debar Maalo, Skopje, North Macedonia",
+        "latitude": 42.001811,
+        "longitude": 21.411507
+    },
+    {
+        "name": "Tutto Capsule Debar Maalo",
+        "url": "https://korpa.mk/partner/tutto-capsule-debar-maalo",
+        "address": "Славка Недиќ 57, Skopje 1000, North Macedonia",
+        "latitude": 42.0015824,
+        "longitude": 21.4190007
+    },
+    {
+        "name": "Proteini SI",
+        "url": "https://korpa.mk/partner/proteini-si",
+        "address": "Palma Mall, Tetovo, North Macedonia",
+        "latitude": 42.0043537,
+        "longitude": 20.9894132
+    },
+    {
+        "name": "Celik",
+        "url": "https://korpa.mk/partner/celik",
+        "address": "MK, Франклин Рузвелт 2, Shkupi 1000, North Macedonia",
+        "latitude": 41.993806,
+        "longitude": 21.41178
+    },
+    {
+        "name": "Teteks - Centar",
+        "url": "https://korpa.mk/partner/teteks-centar",
+        "address": "Ulica MK, Boulevard Phillip the Second of Macedon 5A, Skopje 1000, North Macedonia",
+        "latitude": 41.988972,
+        "longitude": 21.402483
+    },
+    {
+        "name": "Nu House & Friends - City Mall",
+        "url": "https://korpa.mk/partner/nu-house-friends-city-mall",
+        "address": "Ljubljanska 4, Skopje 1000, Shkupi 1000, North Macedonia",
+        "latitude": 42.005196,
+        "longitude": 21.391991
+    },
+    {
+        "name": "Ljubovna Kukjichka - Aerodrom",
+        "url": "https://korpa.mk/partner/ljubovna-kukjichka-aerodrom",
+        "address": "Ljubovna Kukjicka Aerodrom, Skopje, North Macedonia",
+        "latitude": 41.985441,
+        "longitude": 21.451238
+    },
+    {
+        "name": "Gerta Pekara",
+        "url": "https://korpa.mk/partner/gerta-pekara",
+        "address": "Тодор Циповски - Мерџан 60, Tetovo 1220, North Macedonia",
+        "latitude": 42.0124268,
+        "longitude": 20.9682552
+    },
+    {
+        "name": "Gluvo Kuche",
+        "url": "https://korpa.mk/partner/gluvo-kuche",
+        "address": "Antonie Grubishich 2, Skopje 1000, North Macedonia",
+        "latitude": 42.000526,
+        "longitude": 21.421161
+    },
+    {
+        "name": "Slatkogram",
+        "url": "https://korpa.mk/partner/slatkogram",
+        "address": "MК, Borka Talevski 7, Skopje 1000, North Macedonia",
+        "latitude": 41.997427,
+        "longitude": 21.423092
+    },
+    {
+        "name": "Smash Burger",
+        "url": "https://korpa.mk/partner/smash-burger",
+        "address": "Boulevard 3rd Makedonska Brigada 56А Skopje MK, Skopje 1000, North Macedonia",
+        "latitude": 41.990918,
+        "longitude": 21.434019
+    },
+    {
+        "name": "Oljo’s Street Food",
+        "url": "https://korpa.mk/partner/oljos-street-food",
+        "address": "Mihail Cokov 6, Skopje 1000, North Macedonia",
+        "latitude": 42.002252,
+        "longitude": 21.421772
+    },
+    {
+        "name": "Moxie Healthy Bar",
+        "url": "https://korpa.mk/partner/moxie-healthy-bar",
+        "address": "Blvd Saint Clement of Ohrid 11, Skopje 1000, North Macedonia",
+        "latitude": 41.999903,
+        "longitude": 21.427067
+    },
+    {
+        "name": "KFC Point Retail Park",
+        "url": "https://korpa.mk/partner/kfc-point-retail-park",
+        "address": "Blv MK, Македонско Косовска Бригада 67, Shkupi 1000, North Macedonia",
+        "latitude": 42.024389,
+        "longitude": 21.429724
+    },
+    {
+        "name": "Teteks - Cair",
+        "url": "https://korpa.mk/partner/teteks-cair",
+        "address": "Krste Asenov 14, Skopje 1000 MK, Shkupi 1000, North Macedonia",
+        "latitude": 42.017144,
+        "longitude": 21.447523
+    },
+    {
+        "name": "Amigos Ljubljanska",
+        "url": "https://korpa.mk/partner/amigos-ljubljanska",
+        "address": "Ljubljanska 4, Skopje 1000, North Macedonia",
+        "latitude": 42.0044918,
+        "longitude": 21.3914441
+    },
+    {
+        "name": "Trenditional House",
+        "url": "https://korpa.mk/partner/trenditional-house",
+        "address": "Illyria 1200, Tetovo 1220, North Macedonia",
+        "latitude": 42.01027,
+        "longitude": 20.969619
+    },
+    {
+        "name": "Restoran Stanica",
+        "url": "https://korpa.mk/partner/restoran-stanica",
+        "address": "Budva 22, Ohrid, North Macedonia",
+        "latitude": 41.126831,
+        "longitude": 20.806365
+    },
+    {
+        "name": "Brunch Healthy Foods & Snacks",
+        "url": "https://korpa.mk/partner/brunch-healthy-foods-snacks",
+        "address": "Franklin Ruzvelt 68, Skopje 1000, North Macedonia",
+        "latitude": 42.0036321,
+        "longitude": 21.4154075
+    },
+    {
+        "name": "Beer Garden Diamond Mall",
+        "url": "https://korpa.mk/partner/beer-garden-diamond-mall",
+        "address": "Jordan Mijalkov 31, 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.990168,
+        "longitude": 21.429815
+    },
+    {
+        "name": "Fitness House Centar",
+        "url": "https://korpa.mk/partner/fitness-house-centar",
+        "address": "Blvd. Partizanski Odredi 42, Skopje 1000, North Macedonia",
+        "latitude": 42.000591,
+        "longitude": 21.414628
+    },
+    {
+        "name": "Pomodoro",
+        "url": "https://korpa.mk/partner/pomodoro",
+        "address": "Ilirija bb, Tetovë 1200, North Macedonia",
+        "latitude": 42.004238,
+        "longitude": 20.98942
+    },
+    {
+        "name": "Agora Food and Coffee",
+        "url": "https://korpa.mk/partner/agora-food-and-coffee",
+        "address": "Blagoja Toska 206",
+        "latitude": 42.008612,
+        "longitude": 20.977194
+    },
+    {
+        "name": "Picerija Verona - Kisela Voda",
+        "url": "https://korpa.mk/partner/picerija-verona-kisela-voda",
+        "address": "Hristo Tatarchev 47Ц, Skopje 1000, North Macedonia",
+        "latitude": 41.976124,
+        "longitude": 21.445499
+    },
+    {
+        "name": "Junk Food",
+        "url": "https://korpa.mk/partner/junk-food",
+        "address": "Boulevard Ilinden 93, Skopje 1000, North Macedonia",
+        "latitude": 42.005932,
+        "longitude": 21.415376
+    },
+    {
+        "name": "Spizzicotto - EU",
+        "url": "https://korpa.mk/partner/spizzicotto-eu",
+        "address": "Sv. Kiril i Metodij 52v, Skopje 1000, North Macedonia",
+        "latitude": 41.993387,
+        "longitude": 21.425052
+    },
+    {
+        "name": "Skopski Merak",
+        "url": "https://korpa.mk/partner/skopski-merak",
+        "address": "Debarca St 51, 1000, Skopje 1000, North Macedonia",
+        "latitude": 42.001024,
+        "longitude": 21.41989
+    },
+    {
+        "name": "Burgerslut Kisela Voda",
+        "url": "https://korpa.mk/partner/burgerslut-kisela-voda",
+        "address": "Boris Trajkovski 10, Skopje 1000, North Macedonia",
+        "latitude": 41.986226,
+        "longitude": 21.437137
+    },
+    {
+        "name": "Skara Bar",
+        "url": "https://korpa.mk/partner/skara-bar",
+        "address": "Varsavska 70, Skopje 1000, North Macedonia",
+        "latitude": 42.001693,
+        "longitude": 21.392386
+    },
+    {
+        "name": "Planet Burger",
+        "url": "https://korpa.mk/partner/planet-burger",
+        "address": "Dimitrie Cupovski 1a, Skopje 1000, North Macedonia",
+        "latitude": 41.994147,
+        "longitude": 21.431964
+    },
+    {
+        "name": "Healthyish - Leptokarija",
+        "url": "https://korpa.mk/partner/healthyish-leptokarija",
+        "address": "Blvd. Partizanski Odredi 64b, Skopje 1000, North Macedonia",
+        "latitude": 42.003166,
+        "longitude": 21.399105
+    },
+    {
+        "name": "Proteini SI City Mall",
+        "url": "https://korpa.mk/partner/proteini-si-city-mall",
+        "address": "Ljubljanska 4, Skopje 1000, North Macedonia",
+        "latitude": 42.005196,
+        "longitude": 21.391991
+    },
+    {
+        "name": "Hotel Aleksandrija",
+        "url": "https://korpa.mk/partner/hotel-aleksandrija",
+        "address": "Коста Абраш 3, Ohrid 6000, North Macedonia",
+        "latitude": 41.1121724,
+        "longitude": 20.7980090
+    },
+    {
+        "name": "Burger King Diamond Mall",
+        "url": "https://korpa.mk/partner/burger-king-diamond-mall",
+        "address": "Jordan Mijalkov br.31, Skopje 1000, North Macedonia",
+        "latitude": 41.990168,
+        "longitude": 21.429815
+    },
+    {
+        "name": "Fresh Burger House",
+        "url": "https://korpa.mk/partner/fresh-burger-house",
+        "address": "11th October St. 33, Skopje 1000, North Macedonia",
+        "latitude": 41.987118,
+        "longitude": 21.436893
+    },
+    {
+        "name": "SushiCo Debar Maalo",
+        "url": "https://korpa.mk/partner/sushico-debar-maalo",
+        "address": "Leninova 29, Skopje 1000, North Macedonia",
+        "latitude": 41.99959,
+        "longitude": 21.423918
+    },
+    {
+        "name": "Madagaskar",
+        "url": "https://korpa.mk/partner/madagaskar",
+        "address": "Risto Shishkov 40, Skopje 1000, North Macedonia",
+        "latitude": 42.0027358,
+        "longitude": 21.4241911
+    },
+    {
+        "name": "Food Hood",
+        "url": "https://korpa.mk/partner/food-hood",
+        "address": "ul, Kosturski Heroi 17 - 21 lok.2, Skopje 1000, Shkupi 1000, North Macedonia",
+        "latitude": 41.998908,
+        "longitude": 21.41723
+    },
+    {
+        "name": "Kaj Goce",
+        "url": "https://korpa.mk/partner/kaj-goce",
+        "address": "XCXP+VF9, Казанџиска 1000, Skopje 1000, North Macedonia",
+        "latitude": 42.008997,
+        "longitude": 21.433357
+    },
+    {
+        "name": "Zdrava Stanica Centar",
+        "url": "https://korpa.mk/partner/zdrava-stanica-centar",
+        "address": "Blvd. Partizanski Odredi 25, Skopje 1000, North Macedonia",
+        "latitude": 41.9985347,
+        "longitude": 21.4226687
+    },
+    {
+        "name": "Forza Fusion",
+        "url": "https://korpa.mk/partner/forza-fusion",
+        "address": "Ss Cyril & Methodius 3, 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.9899738,
+        "longitude": 21.431307
+    },
+    {
+        "name": "Picerija Verona - Aerodrom",
+        "url": "https://korpa.mk/partner/picerija-verona-aerodrom",
+        "address": "Kosta Novakovik 17, Skopje 1000, North Macedonia",
+        "latitude": 41.983642,
+        "longitude": 21.455096
+    },
+    {
+        "name": "Proteini Si Diamond Mall",
+        "url": "https://korpa.mk/partner/proteini-si-diamond-mall",
+        "address": "Jordan Mijalkov 31, 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.990168,
+        "longitude": 21.429815
+    },
+    {
+        "name": "Restoran Pelister",
+        "url": "https://korpa.mk/partner/restoran-pelister",
+        "address": "Macedonia Square Скопје MK, Skopje 1000, North Macedonia",
+        "latitude": 41.99709,
+        "longitude": 21.432979
+    },
+    {
+        "name": "Nu House & Friends - East Gate Mall",
+        "url": "https://korpa.mk/partner/nu-house-friends-east-gate-mall",
+        "address": "Belasitsa 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.994754,
+        "longitude": 21.449127
+    },
+    {
+        "name": "Destan Ploshtad",
+        "url": "https://korpa.mk/partner/destan-ploshtad",
+        "address": "11th October St. 18, Skopje 1000, North Macedonia",
+        "latitude": 41.990438,
+        "longitude": 21.433214
+    },
+    {
+        "name": "Breadway",
+        "url": "https://korpa.mk/partner/breadway",
+        "address": "Makedonija 51-43, Skopje 1000, North Macedonia",
+        "latitude": 41.994859,
+        "longitude": 21.430801
+    },
+    {
+        "name": "Oselot Bakery",
+        "url": "https://korpa.mk/partner/oselot-bakery",
+        "address": "Prashka 11, Skopje 1000, North Macedonia",
+        "latitude": 41.998349,
+        "longitude": 21.398477
+    },
+    {
+        "name": "KFC City Mall",
+        "url": "https://korpa.mk/partner/kfc-city-mall",
+        "address": "293R+R7V, Skopje 1000, North Macedonia",
+        "latitude": 42.0042193,
+        "longitude": 21.3917118
+    },
+    {
+        "name": "Vitamince",
+        "url": "https://korpa.mk/partner/vitamince",
+        "address": "ул, Mother Teresa бр.5, Skopje 1000, North Macedonia",
+        "latitude": 41.9919417,
+        "longitude": 21.423525
+    },
+    {
+        "name": "Waterdrop City Mall",
+        "url": "https://korpa.mk/partner/waterdrop-city-mall",
+        "address": "waterdrop® Hydration Station Macedonia, Ljubljanska, Skopje, North Macedonia",
+        "latitude": 42.0042193,
+        "longitude": 21.3917118
+    },
+    {
+        "name": "Meatology",
+        "url": "https://korpa.mk/partner/meatology",
+        "address": "St. Clement of Ohrid Blvd Skopje MK, Skopje 1000, North Macedonia",
+        "latitude": 41.9990688,
+        "longitude": 21.426222
+    },
+    {
+        "name": "Fluffy Mini Pancakes Centar",
+        "url": "https://korpa.mk/partner/fluffy-mini-pancakes-centar",
+        "address": "MK, Zhivko Chingo, Skopje 1000, North Macedonia",
+        "latitude": 42.0013415,
+        "longitude": 21.4205262
+    },
+    {
+        "name": "Soju Bar",
+        "url": "https://korpa.mk/partner/soju-bar",
+        "address": "Sojubar Skopje Diamond Mall, Jordan Mijalkov, Skopje, North Macedonia",
+        "latitude": 41.9912554,
+        "longitude": 21.4270062
+    },
+    {
+        "name": "Botanika Urbana Kafana",
+        "url": "https://korpa.mk/partner/botanika-urbana-kafana",
+        "address": "Orce Nikolov 166, Skopje 1000, North Macedonia",
+        "latitude": 42.0050818,
+        "longitude": 21.4129781
+    },
+    {
+        "name": "Star Ocean - East Gate Mall",
+        "url": "https://korpa.mk/partner/star-ocean-east-gate-mall",
+        "address": "Belasitsa 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.990168,
+        "longitude": 21.429815
+    },
+    {
+        "name": "Star Ocean - City Mall",
+        "url": "https://korpa.mk/partner/star-ocean-city-mall",
+        "address": "293R+R7V, Skopje 1000, North Macedonia",
+        "latitude": 42.0042193,
+        "longitude": 21.3917118
+    },
+    {
+        "name": "Costarica",
+        "url": "https://korpa.mk/partner/costarica",
+        "address": "Naum Naumovski Borce 86, Skopje 1000, North Macedonia",
+        "latitude": 42.002889,
+        "longitude": 21.423959
+    },
+    {
+        "name": "Spizzicotto - GTC",
+        "url": "https://korpa.mk/partner/spizzicotto-gtc",
+        "address": "XCVP+Q2P, Skopje 1000, North Macedonia",
+        "latitude": 41.993602,
+        "longitude": 21.508322
+    },
+    {
+        "name": "Chef Italian kitchen",
+        "url": "https://korpa.mk/partner/chef-italian-kitchen",
+        "address": "Aerodrom Skopje 1000, Shkupi 1000, North Macedonia",
+        "latitude": 41.977763,
+        "longitude": 21.534288
+    },
+    {
+        "name": "Nesto Zdravo",
+        "url": "https://korpa.mk/partner/nesto-zdravo",
+        "address": "Jane Sandanski 11, Shkupi 1000, North Macedonia",
+        "latitude": 41.988323,
+        "longitude": 21.453301
+    },
+    {
+        "name": "Vodenica Mulino",
+        "url": "https://korpa.mk/partner/vodenica-mulino",
+        "address": "Mitropolit Teodosij Gologanov 69, Skopje 1000, North Macedonia",
+        "latitude": 41.994869,
+        "longitude": 21.4136
+    },
+    {
+        "name": "Distrikt Bar & Kitchen",
+        "url": "https://korpa.mk/partner/distrikt-bar-kitchen",
+        "address": "Nikola Kljusev 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.996881,
+        "longitude": 21.429179
+    },
+    {
+        "name": "Gyro House Centar",
+        "url": "https://korpa.mk/partner/gyro-house-centar",
+        "address": "Boulevard Saint Clement of Ohrid BB, Skopje 1000, North Macedonia",
+        "latitude": 41.9977984,
+        "longitude": 21.4251145
+    },
+    {
+        "name": "Schatze Sendvicara",
+        "url": "https://korpa.mk/partner/schatze-sendvicara",
+        "address": "Ул, Скопски Пат 8, Tetovo 1200, North Macedonia",
+        "latitude": 42.004189,
+        "longitude": 20.989502
+    },
+    {
+        "name": "Tino Junior Pub",
+        "url": "https://korpa.mk/partner/tino-junior-pub",
+        "address": "Кеј Македонија 45, Ohrid 6000, North Macedonia",
+        "latitude": 41.109028,
+        "longitude": 20.805638
+    },
+    {
+        "name": "Restoran Bure",
+        "url": "https://korpa.mk/partner/restoran-bure",
+        "address": "Nikola Rusinski 1, Skopje 1000, North Macedonia",
+        "latitude": 42.0037,
+        "longitude": 21.3994
+    },
+    {
+        "name": "Beer Garden Debar Maalo",
+        "url": "https://korpa.mk/partner/beer-garden-debar-maalo",
+        "address": "Zhivko Chingo br.5, Skopje 1000, North Macedonia",
+        "latitude": 42.00081,
+        "longitude": 21.420073
+    },
+    {
+        "name": "Krofnite od Hrom - Centar",
+        "url": "https://korpa.mk/partner/krofnite-od-hrom-centar",
+        "address": "Црвена Вода 8/14, Skopje 1000",
+        "latitude": 42.0002428,
+        "longitude": 21.4162914
+    },
+    {
+        "name": "Simple Cafe",
+        "url": "https://korpa.mk/partner/simple-cafe",
+        "address": "Борис Кидрич 29, Tetovo 1220, North Macedonia",
+        "latitude": 42.007753,
+        "longitude": 20.982832
+    },
+    {
+        "name": "Toto Daily Bistro",
+        "url": "https://korpa.mk/partner/toto-daily-bistro",
+        "address": "Аминта Трети 63, Skopje, North Macedonia",
+        "latitude": 41.996449,
+        "longitude": 21.422447
+    },
+    {
+        "name": "Destan Bunjakovec",
+        "url": "https://korpa.mk/partner/destan-bunjakovec",
+        "address": "Blvd. Partizanski Odredi 29, Skopje 1000, North Macedonia",
+        "latitude": 41.998826,
+        "longitude": 21.420623
+    },
+    {
+        "name": "BKW Hybrid Bar",
+        "url": "https://korpa.mk/partner/bkw-hybrid-bar",
+        "address": "MK, Њуделхиска 13, Skopje 1000, Shkupi 1000, North Macedonia",
+        "latitude": 41.9970804,
+        "longitude": 21.4061183
+    },
+    {
+        "name": "Pizza Pempele Aerodrom",
+        "url": "https://korpa.mk/partner/pizza-pempele-aerodrom",
+        "address": "бул. АСНОМ бр.33 лок.2, Shkupi 1000, North Macedonia",
+        "latitude": 41.9832302,
+        "longitude": 21.4829132
+    },
+    {
+        "name": "Restoran Dion - Centar",
+        "url": "https://korpa.mk/partner/restoran-dion-centar",
+        "address": "Кеј 13-ти Ноември 8, Skopje 1000, North Macedonia",
+        "latitude": 41.9956563,
+        "longitude": 21.4334652
+    },
+    {
+        "name": "Forza Restaurant",
+        "url": "https://korpa.mk/partner/forza-restaurant",
+        "address": "Лондонска 12, Skopje 1000, North Macedonia",
+        "latitude": 41.99966,
+        "longitude": 21.39095
+    },
+    {
+        "name": "Shtipski Merak",
+        "url": "https://korpa.mk/partner/shtipski-merak",
+        "address": "Vidoe Smilevski Bato br 51 lokal 18i19, Shkupi 1000, North Macedonia",
+        "latitude": 41.9821874,
+        "longitude": 21.4742324
+    },
+    {
+        "name": "Burger King Centar",
+        "url": "https://korpa.mk/partner/burger-king-centar",
+        "address": "2X5C+W2V, Tetovo 1220, North Macedonia",
+        "latitude": 41.9953844,
+        "longitude": 21.4302754
+    },
+    {
+        "name": "KFC Palma Mall",
+        "url": "https://korpa.mk/partner/kfc-palma-mall",
+        "address": "Ул, Скопски Пат 8, Tetovo 1200, North Macedonia",
+        "latitude": 42.0046641,
+        "longitude": 20.9894873
+    },
+    {
+        "name": "Plaset Doner & Burger - East Gate Mall",
+        "url": "https://korpa.mk/partner/plaset-doner-burger-east-gate-mall",
+        "address": "Belasitsa 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.994754,
+        "longitude": 21.449127
+    },
+    {
+        "name": "Rush Lounge & Bar",
+        "url": "https://korpa.mk/partner/rush-lounge-bar",
+        "address": "Борис Кидрич 29, Tetovo 1220, North Macedonia",
+        "latitude": 42.0088131,
+        "longitude": 20.9793994
+    },
+    {
+        "name": "Cowboy Candy East Gate",
+        "url": "https://korpa.mk/partner/cowboy-candy-east-gate",
+        "address": "Belasitsa 2, Skopje 1000, North Macedonia",
+        "latitude": 41.9948253,
+        "longitude": 21.4333954
+    },
+    {
+        "name": "Fitness House Aerodrom",
+        "url": "https://korpa.mk/partner/fitness-house-aerodrom",
+        "address": "Фрањо Клуз 6, Скопје 1000, Северна Македонија",
+        "latitude": 41.984971,
+        "longitude": 21.450969
+    },
+    {
+        "name": "Harmonija",
+        "url": "https://korpa.mk/partner/harmonija",
+        "address": "Boulevard Kocho Racin 28, Skopje 1000, North Macedonia",
+        "latitude": 41.991584,
+        "longitude": 21.43574
+    },
+    {
+        "name": "Cioccolatitaliani",
+        "url": "https://korpa.mk/partner/cioccolatitaliani",
+        "address": "Belasitsa 2, Skopje 1000, North Macedonia",
+        "latitude": 41.997589,
+        "longitude": 21.452579
+    },
+    {
+        "name": "Farmer Boy",
+        "url": "https://korpa.mk/partner/farmer-boy",
+        "address": "Mitropolit Teodosij Gologanov lok.2, Skopje 1000, North Macedonia",
+        "latitude": 41.998602,
+        "longitude": 21.407911
+    },
+    {
+        "name": "Restoran Dion - Aerodrom",
+        "url": "https://korpa.mk/partner/restoran-dion-aerodrom",
+        "address": "MK MK, 3rd Macedonian Brigade 60, Skopje 1000, North Macedonia",
+        "latitude": 41.980896,
+        "longitude": 21.454277
+    },
+    {
+        "name": "Healthy Junk Food",
+        "url": "https://korpa.mk/partner/healthy-junk-food",
+        "address": "29-ti Noemvri Rd 42/1-13, Skopje 1000, North Macedonia",
+        "latitude": 41.997427,
+        "longitude": 21.417019
+    },
+    {
+        "name": "Bistro 64",
+        "url": "https://korpa.mk/partner/bistro-64",
+        "address": "Lazar Lichenoski 13, Skopje 1000, North Macedonia",
+        "latitude": 42.0027596,
+        "longitude": 21.4306016
+    },
+    {
+        "name": "Burger King Ramstore Mall",
+        "url": "https://korpa.mk/partner/burger-king-ramstore-mall",
+        "address": "SS Cyril and Methodius 13, Скопје 1000, North Macedonia",
+        "latitude": 41.99172,
+        "longitude": 21.427344
+    },
+    {
+        "name": "Krofnite od Hrom",
+        "url": "https://korpa.mk/partner/krofnite-od-hrom",
+        "address": "Krofnite od Hrom, Skopje, North Macedonia",
+        "latitude": 42.0056036,
+        "longitude": 21.3776223
+    },
+    {
+        "name": "Burger King East Gate Mall",
+        "url": "https://korpa.mk/partner/burger-king-east-gate-mall",
+        "address": "Belasitsa 1000, Skopje 1000, North Macedonia",
+        "latitude": 42.007855,
+        "longitude": 20.969352
+    },
+    {
+        "name": "IT Cafe",
+        "url": "https://korpa.mk/partner/it-cafe",
+        "address": "4R72+V68, Boulevard Macedonian Educators, Ohër, North Macedonia",
+        "latitude": 41.125792,
+        "longitude": 20.810229
+    },
+    {
+        "name": "Nod Zdrava Hrana",
+        "url": "https://korpa.mk/partner/nod-zdrava-hrana",
+        "address": "Orce Nikolov 148, Skopje 1000, North Macedonia",
+        "latitude": 42.004328,
+        "longitude": 21.41556
+    },
+    {
+        "name": "Dva Elena",
+        "url": "https://korpa.mk/partner/dva-elena",
+        "address": "Zagrebska 31, Skopje 1000, North Macedonia",
+        "latitude": 41.9929578,
+        "longitude": 21.4078759
+    },
+    {
+        "name": "Restoran Kaj Gino",
+        "url": "https://korpa.mk/partner/restoran-kaj-gino",
+        "address": "Kej 13th November GTC Local 6, 1st floor, Shkupi 1000, North Macedonia",
+        "latitude": 41.993783,
+        "longitude": 21.436504
+    },
+    {
+        "name": "Sweet Corner",
+        "url": "https://korpa.mk/partner/sweet-corner",
+        "address": "Porta Vlae, Blvd. Partizanski Odredi 153, Skopje 1000, North Macedonia",
+        "latitude": 42.007437,
+        "longitude": 21.371051
+    },
+    {
+        "name": "Skara Leskovac - Aerodrom",
+        "url": "https://korpa.mk/partner/skara-leskovac-aerodrom",
+        "address": "Boulevard Jane Sandanski 79, Skopje 1000, North Macedonia",
+        "latitude": 41.985898,
+        "longitude": 21.467516
+    },
+    {
+        "name": "Amanti",
+        "url": "https://korpa.mk/partner/amanti",
+        "address": "Boris Kidriq 25, Tetovë 1220, North Macedonia",
+        "latitude": 42.009501,
+        "longitude": 20.977359
+    },
+    {
+        "name": "Mozart",
+        "url": "https://korpa.mk/partner/mozart",
+        "address": "Mirche Orovchanec 1, Skopje 1000, North Macedonia",
+        "latitude": 41.999796,
+        "longitude": 21.413667
+    },
+    {
+        "name": "Aviator Gjorche Petrov",
+        "url": "https://korpa.mk/partner/aviator-gjorche-petrov",
+        "address": "2947+XVH, Skopje 1000, North Macedonia",
+        "latitude": 42.0074365,
+        "longitude": 21.3647302
+    },
+    {
+        "name": "Leonardo Pizza",
+        "url": "https://korpa.mk/partner/leonardo-pizza",
+        "address": "Budva 36, Ohrid 6000, North Macedonia",
+        "latitude": 41.128371,
+        "longitude": 20.806138
+    },
+    {
+        "name": "Picerija Verona - Taftalidze",
+        "url": "https://korpa.mk/partner/picerija-verona-taftalidze",
+        "address": "Prashka 11, Skopje 1000, North Macedonia",
+        "latitude": 41.998349,
+        "longitude": 21.398477
+    },
+    {
+        "name": "Bursa Kebap Evi Cevahir Mall",
+        "url": "https://korpa.mk/partner/bursa-kebap-evi-cevahir-mall",
+        "address": "ул. 1615 28, Скопје 1000, North Macedonia",
+        "latitude": 41.979613,
+        "longitude": 21.466319
+    },
+    {
+        "name": "Infinity Kitchen Bar",
+        "url": "https://korpa.mk/partner/infinity-kitchen-bar",
+        "address": "Boris Kidriq 1220, Tetovë 1220, North Macedonia",
+        "latitude": 42.008993,
+        "longitude": 20.979188
+    },
+    {
+        "name": "Polleo Sport",
+        "url": "https://korpa.mk/partner/polleo-sport",
+        "address": "Belasitsa 2, Skopje 1000, North Macedonia",
+        "latitude": 41.997589,
+        "longitude": 21.452579
+    },
+    {
+        "name": "Carpe Diem",
+        "url": "https://korpa.mk/partner/carpe-diem",
+        "address": "Ljubo Bozinovski - Pish 101-97, Tetovo 1220, North Macedonia",
+        "latitude": 42.011,
+        "longitude": 20.980545
+    },
+    {
+        "name": "Babloku Burger",
+        "url": "https://korpa.mk/partner/babloku-burger",
+        "address": "XXV6+PCF, R2233, Tetovo 1220, North Macedonia",
+        "latitude": 41.971122,
+        "longitude": 20.970487
+    },
+    {
+        "name": "Venice Fontana",
+        "url": "https://korpa.mk/partner/venice-fontana",
+        "address": "Restaurant Venice Fontana, Boris Trajkovski, Skopje, North Macedonia",
+        "latitude": 41.9863977,
+        "longitude": 21.4370671
+    },
+    {
+        "name": "Space Burger - Aerodrom",
+        "url": "https://korpa.mk/partner/space-burger-aerodrom",
+        "address": "Булевар Јане Сандански 78/1, Skopje, North Macedonia",
+        "latitude": 41.984302,
+        "longitude": 21.465466
+    },
+    {
+        "name": "Amanti Vodno",
+        "url": "https://korpa.mk/partner/amanti-vodno",
+        "address": "XCRF+QFJ, Мајка Тереза, Скопје 1000, Северна Македонија",
+        "latitude": 41.9919542,
+        "longitude": 21.4235678
+    },
+    {
+        "name": "Restoran Valentino",
+        "url": "https://korpa.mk/partner/restoran-valentino",
+        "address": "Jane Sandanski 56, Ohrid 6000, North Macedonia",
+        "latitude": 41.113658,
+        "longitude": 20.8107
+    },
+    {
+        "name": "Zero Zero Pizza",
+        "url": "https://korpa.mk/partner/zero-zero-pizza",
+        "address": "Ѓорче Петров 58, Скопје, North Macedonia",
+        "latitude": 42.00674,
+        "longitude": 21.356397
+    },
+    {
+        "name": "Pizza Noma",
+        "url": "https://korpa.mk/partner/pizza-noma",
+        "address": "Pizza Noma, Bozhidar Adzhia, Skopje, North Macedonia",
+        "latitude": 41.9809831,
+        "longitude": 21.4403098
+    },
+    {
+        "name": "Gostilnica Dukat",
+        "url": "https://korpa.mk/partner/gostilnica-dukat",
+        "address": "MK, Булевар Митрополит Теодосиј Гологанов 79, Shkupi 1000, North Macedonia",
+        "latitude": 41.994977,
+        "longitude": 21.412936
+    },
+    {
+        "name": "Bursa Kebap Evi Diamond Mall",
+        "url": "https://korpa.mk/partner/bursa-kebap-evi-diamond-mall",
+        "address": "Bursa Kebap Evi - Diamond Mall, Jordan Mijalkov 31, 1000 Skopje, North Macedonia",
+        "latitude": 41.99099,
+        "longitude": 21.427252
+    },
+    {
+        "name": "Premium Smash Burger",
+        "url": "https://korpa.mk/partner/premium-smash-burger",
+        "address": "Belasitsa 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.994754,
+        "longitude": 21.449127
+    },
+    {
+        "name": "CHIA Aerodrom",
+        "url": "https://korpa.mk/partner/chia-aerodrom",
+        "address": "Bojmija 8/1-local 5, Skopje 1000, North Macedonia",
+        "latitude": 41.995441,
+        "longitude": 21.479299
+    },
+    {
+        "name": "Antica",
+        "url": "https://korpa.mk/partner/antica",
+        "address": "MK, Debarca 53, Skopje 1000, North Macedonia",
+        "latitude": 42.001147,
+        "longitude": 21.4196108
+    },
+    {
+        "name": "Enriko",
+        "url": "https://korpa.mk/partner/enriko",
+        "address": "Blvd. Partizanski Odredi 64a, Skopje 1000, North Macedonia",
+        "latitude": 42.003117,
+        "longitude": 21.398879
+    },
+    {
+        "name": "KFC OKTA",
+        "url": "https://korpa.mk/partner/kfc-okta",
+        "address": "Blvd. Aleksandar Makedonski 10, Shkupi 1000, North Macedonia",
+        "latitude": 42.000957,
+        "longitude": 21.464901
+    },
+    {
+        "name": "Sutlijas Bar",
+        "url": "https://korpa.mk/partner/sutlijas-bar",
+        "address": "Vladimir Polezhinovski 23, Skopje 1000, North Macedonia",
+        "latitude": 41.998265,
+        "longitude": 21.416575
+    },
+    {
+        "name": "Amanti City Mall",
+        "url": "https://korpa.mk/partner/amanti-city-mall",
+        "address": "293R+R7V, Skopje 1000, North Macedonia",
+        "latitude": 42.0042193,
+        "longitude": 21.3917118
+    },
+    {
+        "name": "M's Street Food",
+        "url": "https://korpa.mk/partner/ms-street-food",
+        "address": "Debarca 21, Skopje 1000, Republic of Macedonia",
+        "latitude": 41.9973399,
+        "longitude": 21.4227086
+    },
+    {
+        "name": "Food Mood",
+        "url": "https://korpa.mk/partner/food-mood",
+        "address": "Vladimir Polezhinovski 23, Skopje 1000, Shkupi 1000, North Macedonia",
+        "latitude": 41.998265,
+        "longitude": 21.416575
+    },
+    {
+        "name": "Senigallia",
+        "url": "https://korpa.mk/partner/senigallia",
+        "address": "Кеј 13-ти Ноември 16, Skopje 1010, North Macedonia",
+        "latitude": 41.995204,
+        "longitude": 21.435018
+    },
+    {
+        "name": "Pizza Factory",
+        "url": "https://korpa.mk/partner/pizza-factory",
+        "address": "Pizza Factory ? Novo Lisiche, Skopje, North Macedonia",
+        "latitude": 41.982412,
+        "longitude": 21.472682
+    },
+    {
+        "name": "Subzy",
+        "url": "https://korpa.mk/partner/subzy",
+        "address": "Dane Krapchev 27, Skopje 1000, North Macedonia",
+        "latitude": 42.000884,
+        "longitude": 21.416229
+    },
+    {
+        "name": "Mr. Hot Dog",
+        "url": "https://korpa.mk/partner/mr-hot-dog",
+        "address": "Orce Nikolov 145, Skopje 1000, North Macedonia",
+        "latitude": 42.003298,
+        "longitude": 21.416681
+    },
+    {
+        "name": "Balance Bistro",
+        "url": "https://korpa.mk/partner/balance-bistro",
+        "address": "2C42+3QJ, Bledski Dogovor 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.999233,
+        "longitude": 21.431383
+    },
+    {
+        "name": "Royal Burger Debar Maalo",
+        "url": "https://korpa.mk/partner/royal-burger-debar-maalo",
+        "address": "Donbas 1, Skopje 1000, North Macedonia",
+        "latitude": 42.0033999,
+        "longitude": 21.4171433
+    },
+    {
+        "name": "Fat Kitchen Bistro",
+        "url": "https://korpa.mk/partner/fat-kitchen-bistro",
+        "address": "Vladimir Polezhinovski 23, Skopje 1000, North Macedonia",
+        "latitude": 41.9982539,
+        "longitude": 21.416529
+    },
+    {
+        "name": "Enko Fast Food",
+        "url": "https://korpa.mk/partner/enko-fast-food",
+        "address": "Cvetan Dimov 135B, Skopje 1000, North Macedonia",
+        "latitude": 42.012668,
+        "longitude": 21.445043
+    },
+    {
+        "name": "Balila",
+        "url": "https://korpa.mk/partner/balila",
+        "address": "Васил Ѓоргов 29, Shkupi 1000, North Macedonia",
+        "latitude": 41.992704,
+        "longitude": 21.416614
+    },
+    {
+        "name": "Irish Pub Five",
+        "url": "https://korpa.mk/partner/irish-pub-five",
+        "address": "Bulevar Makedonski Prosvetiteli 1, Ohrid 6000, North Macedonia",
+        "latitude": 41.114875,
+        "longitude": 41.114875
+    },
+    {
+        "name": "Munchies Burger",
+        "url": "https://korpa.mk/partner/munchies-burger",
+        "address": "Munchies burger, Boulevard Jane Sandanski, Skopje, North Macedonia",
+        "latitude": 41.987887,
+        "longitude": 21.453495
+    },
+    {
+        "name": "Tivoli",
+        "url": "https://korpa.mk/partner/tivoli",
+        "address": "Boulevard Krste Petkov Misirkov 57, Skopje 1000, North Macedonia",
+        "latitude": 42.000168,
+        "longitude": 21.438971
+    },
+    {
+        "name": "Brunch Cafe by Brunch Box",
+        "url": "https://korpa.mk/partner/brunch-cafe-by-brunch-box",
+        "address": "Диме Аницин 15, Skopje 1000, North Macedonia",
+        "latitude": 41.9963452,
+        "longitude": 21.4156808
+    },
+    {
+        "name": "Palacinkite na Kapetanot",
+        "url": "https://korpa.mk/partner/palacinkite-na-kapetanot",
+        "address": "Cevahir Mall, Ul.Mateja Matevski br20A, Булевар Србија 1000, Shkupi 1000, North Macedonia",
+        "latitude": 41.9796636,
+        "longitude": 21.4664414
+    },
+    {
+        "name": "Usta Donerci Palma Mall",
+        "url": "https://korpa.mk/partner/usta-donerci-palma-mall",
+        "address": "Ул, Скопски Пат 8, Tetovo 1200, North Macedonia",
+        "latitude": 42.004189,
+        "longitude": 20.989502
+    },
+    {
+        "name": "Plaset Doner & Burger - Univerzalna",
+        "url": "https://korpa.mk/partner/plaset-doner-burger-univerzalna",
+        "address": "Blvd. Partizanski Odredi 43, Skopje 1000, North Macedonia",
+        "latitude": 41.9995679,
+        "longitude": 21.4174651
+    },
+    {
+        "name": "SushiCo Zen",
+        "url": "https://korpa.mk/partner/sushico-zen",
+        "address": "Jordan Mijalkov 31, Skopje 1000, North Macedonia",
+        "latitude": 41.9901683,
+        "longitude": 21.4298153
+    },
+    {
+        "name": "Burgerslut Centar",
+        "url": "https://korpa.mk/partner/burgerslut-centar",
+        "address": "Pirinska 28 1/1, Skopje 1000, North Macedonia",
+        "latitude": 41.99624,
+        "longitude": 21.424899
+    },
+    {
+        "name": "KFC Novo Lisice",
+        "url": "https://korpa.mk/partner/kfc-novo-lisice",
+        "address": "XFPF+WJH, Boulevard Serbia 50, Skopje 1000, North Macedonia",
+        "latitude": 41.994682,
+        "longitude": 21.414863
+    },
+    {
+        "name": "Spizzicotto - Karposh",
+        "url": "https://korpa.mk/partner/spizzicotto-karposh",
+        "address": "Orce Nikolov 155, Skopje 1000, North Macedonia",
+        "latitude": 42.004148,
+        "longitude": 21.41485
+    },
+    {
+        "name": "Mestence",
+        "url": "https://korpa.mk/partner/mestence",
+        "address": "ASNOM Blvd 74, Shkupi 1000, North Macedonia",
+        "latitude": 41.9839752,
+        "longitude": 21.4800976
+    },
+    {
+        "name": "Noa Gyradiko",
+        "url": "https://korpa.mk/partner/noa-gyradiko",
+        "address": "Bahar Mois 8, Skopje 1000, North Macedonia",
+        "latitude": 41.998085,
+        "longitude": 21.406308
+    },
+    {
+        "name": "Letnica",
+        "url": "https://korpa.mk/partner/letnica",
+        "address": "4Q7X+8V8, Bulevar Makedonski Prosvetiteli, Ohrid, North Macedonia",
+        "latitude": 41.114758,
+        "longitude": 20.801172
+    },
+    {
+        "name": "Balkan Tantuni",
+        "url": "https://korpa.mk/partner/balkan-tantuni",
+        "address": "Cvetan Dimov 57, Skopje 1000, North Macedonia",
+        "latitude": 42.010648,
+        "longitude": 21.444069
+    },
+    {
+        "name": "The Pizza Place",
+        "url": "https://korpa.mk/partner/the-pizza-place",
+        "address": "Boulevard Kocho Racin 1, Skopje 1000, North Macedonia",
+        "latitude": 41.993117,
+        "longitude": 21.441964
+    },
+    {
+        "name": "Royal Burger Novo Lisice",
+        "url": "https://korpa.mk/partner/royal-burger-novo-lisice",
+        "address": "Royal Burger, Vidoe Smilevski Bato, Skopje, North Macedonia",
+        "latitude": 41.981187,
+        "longitude": 21.475563
+    },
+    {
+        "name": "Plaset Doner & Burger - City Mall",
+        "url": "https://korpa.mk/partner/plaset-doner-burger-city-mall",
+        "address": "Blvd. Partizanski Odredi 1000, Skopje 1000, North Macedonia",
+        "latitude": 42.0042193,
+        "longitude": 21.3917118
+    },
+    {
+        "name": "Amigos Centar",
+        "url": "https://korpa.mk/partner/amigos-centar",
+        "address": "Macedonia 11, Skopje 1000, North Macedonia",
+        "latitude": 41.992949,
+        "longitude": 21.429942
+    },
+    {
+        "name": "Star Ocean - Ramstore Mall",
+        "url": "https://korpa.mk/partner/star-ocean-ramstore-mall",
+        "address": "SS Cyril and Methodius 13, Скопје 1000, North Macedonia",
+        "latitude": 41.99172,
+        "longitude": 21.427344
+    },
+    {
+        "name": "Amanti Cevahir Mall",
+        "url": "https://korpa.mk/partner/amanti-cevahir-mall",
+        "address": "Boulevard Serbia n.31A, Skopje 1000, North Macedonia",
+        "latitude": 41.98083,
+        "longitude": 21.467995
+    },
+    {
+        "name": "Trend Burger & Pizza",
+        "url": "https://korpa.mk/partner/trend-burger-pizza",
+        "address": "15-ti Korpus 2/4-1-1",
+        "latitude": 42.000315,
+        "longitude": 21.480953
+    },
+    {
+        "name": "Zdrava Stanica Kitchen",
+        "url": "https://korpa.mk/partner/zdrava-stanica-kitchen",
+        "address": "БЕЛАСИЦА СКОПЈЕ БЕЛАЦИЦА 2, Skopje 1000, North Macedonia",
+        "latitude": 41.997589,
+        "longitude": 21.452579
+    },
+    {
+        "name": "Wish",
+        "url": "https://korpa.mk/partner/wish",
+        "address": "293X+C54, Skopje 1000, North Macedonia",
+        "latitude": 42.010535,
+        "longitude": 21.414499
+    },
+    {
+        "name": "Proteini SI Aerodrom",
+        "url": "https://korpa.mk/partner/proteini-si-aerodrom",
+        "address": "Franjo Kluz 16, Skopje 1000, North Macedonia",
+        "latitude": 41.985974,
+        "longitude": 21.450755
+    },
+    {
+        "name": "Vega Centar",
+        "url": "https://korpa.mk/partner/vega-centar",
+        "address": "Franklin Ruzvelt 20, Skopje 1000, North Macedonia",
+        "latitude": 41.999357,
+        "longitude": 21.413093
+    },
+    {
+        "name": "Freshii Food & Coffee",
+        "url": "https://korpa.mk/partner/freshii-food-coffee",
+        "address": "ul, Иван Козаров br.58 a, Shkupi 1000, North Macedonia",
+        "latitude": 41.9834266,
+        "longitude": 21.4387798
+    },
+    {
+        "name": "Fratelli",
+        "url": "https://korpa.mk/partner/fratelli",
+        "address": "Борис Кидрич 13, Tetovo 1220, North Macedonia",
+        "latitude": 42.009933,
+        "longitude": 20.975899
+    },
+    {
+        "name": "Med i Mleko",
+        "url": "https://korpa.mk/partner/med-i-mleko",
+        "address": "Vasil Gjorgov 33A, Skopje 1000, North Macedonia",
+        "latitude": 41.992963,
+        "longitude": 21.415489
+    },
+    {
+        "name": "Snack House & Villa Jankuloski",
+        "url": "https://korpa.mk/partner/snack-house-villa-jankuloski",
+        "address": "Васил Главинов 18, Ohrid 6000, North Macedonia",
+        "latitude": 41.120375,
+        "longitude": 20.810593
+    },
+    {
+        "name": "Madrina Boutique Kitchen & Bar",
+        "url": "https://korpa.mk/partner/madrina-boutique-kitchen-bar",
+        "address": "Bane Stefanoski St 7, Tetovë 1220, North Macedonia",
+        "latitude": 41.992963,
+        "longitude": 21.415489
+    },
+    {
+        "name": "Teteks - Gjorce Petrov",
+        "url": "https://korpa.mk/partner/teteks-gjorce-petrov",
+        "address": "Boris Sarafov 47, Skopje 1000, North Macedonia",
+        "latitude": 42.008736,
+        "longitude": 21.35280
+    },
+    {
+        "name": "Love Corner",
+        "url": "https://korpa.mk/partner/love-corner",
+        "address": "Belasitsa 2, Skopje 1000, North Macedonia",
+        "latitude": 42.010375,
+        "longitude": 20.976797
+    },
+    {
+        "name": "Savanna Space",
+        "url": "https://korpa.mk/partner/savanna-space",
+        "address": "Blvd. Partizanski Odredi 99, Skopje 1000, North Macedonia",
+        "latitude": 42.002311,
+        "longitude": 21.398457
+    },
+    {
+        "name": "KafanCHE",
+        "url": "https://korpa.mk/partner/kafanche",
+        "address": "Boulevard Ilinden 38a, Skopje 1000, North Macedonia",
+        "latitude": 42.010375,
+        "longitude": 20.976797
+    },
+    {
+        "name": "Star Ocean - Centar",
+        "url": "https://korpa.mk/partner/star-ocean-centar",
+        "address": "Лермонтова 19, Skopje 1000, North Macedonia",
+        "latitude": 42.000732,
+        "longitude": 21.426844
+    },
+    {
+        "name": "Chinki Palacinki",
+        "url": "https://korpa.mk/partner/chinki-palacinki",
+        "address": "Blvd. Partizanski Odredi 64, Skopje 1000, North Macedonia",
+        "latitude": 42.00357,
+        "longitude": 21.398296
+    },
+    {
+        "name": "Teteks - Karposh",
+        "url": "https://korpa.mk/partner/teteks-karposh",
+        "address": "Orce Nikolov 206, Skopje 1000, North Macedonia",
+        "latitude": 42.005389,
+        "longitude": 21.409934
+    },
+    {
+        "name": "Eat This",
+        "url": "https://korpa.mk/partner/eat-this",
+        "address": "Nikola Trimpare broj 8 lokal 2 Skopje MK, Shkupi 1000, North Macedonia",
+        "latitude": 41.989305,
+        "longitude": 21.435759
+    },
+    {
+        "name": "Vega Aerodrom",
+        "url": "https://korpa.mk/partner/vega-aerodrom",
+        "address": "Boulevard Jane Sandanski 12, Skopje 1000, North Macedonia",
+        "latitude": 41.987903,
+        "longitude": 21.454402
+    },
+    {
+        "name": "Amanti East Gate Mall",
+        "url": "https://korpa.mk/partner/amanti-east-gate-mall",
+        "address": "Belasitsa 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.994754,
+        "longitude": 21.449127
+    },
+    {
+        "name": "Burger House",
+        "url": "https://korpa.mk/partner/burger-house",
+        "address": "Jane Sandanski 116, Tetovo 1220, North Macedonia",
+        "latitude": 41.987903,
+        "longitude": 21.454402
+    },
+    {
+        "name": "Dolna Porta",
+        "url": "https://korpa.mk/partner/dolna-porta",
+        "address": "Lower Gate, Kosta Abrash, Ohrid, North Macedonia",
+        "latitude": 42.0097344,
+        "longitude": 20.9738082
+    },
+    {
+        "name": "Noa Lounge bar",
+        "url": "https://korpa.mk/partner/noa-lounge-bar",
+        "address": "Коста Абраш 32, Ohrid 6000, North Macedonia",
+        "latitude": 41.111979,
+        "longitude": 20.79731
+    },
+    {
+        "name": "Maggio ( Madzo 2.0 )",
+        "url": "https://korpa.mk/partner/maggio-madzo-20",
+        "address": "Mihail Cokov 8a, Skopje 1000, North Macedonia",
+        "latitude": 42.00249,
+        "longitude": 21.42200
+    },
+    {
+        "name": "Space Burger - Centar",
+        "url": "https://korpa.mk/partner/space-burger-centar",
+        "address": "Dimitrie Chupovski 26, Shkupi 1000, North Macedonia",
+        "latitude": 41.9912554,
+        "longitude": 21.4270062
+    },
+    {
+        "name": "Zdrava Stanica East Gate",
+        "url": "https://korpa.mk/partner/zdrava-stanica-east-gate",
+        "address": "Belasitsa 1000, Skopje 1000, North Macedonia",
+        "latitude": 41.9948253,
+        "longitude": 41.9948253
+    },
+    {
+        "name": "Markt Kitchen City Mall",
+        "url": "https://korpa.mk/partner/markt-kitchen-city-mall",
+        "address": "Ljubljanska br.4, Skopje 1000, North Macedonia",
+        "latitude": 42.0042193,
+        "longitude": 42.0042193
+    },
+    {
+        "name": "Fast Food 13",
+        "url": "https://korpa.mk/partner/fast-food-13",
+        "address": "Nikola Rusinski 3a, Skopje 1000, North Macedonia",
+        "latitude": 42.0013415,
+        "longitude": 21.4205262
+    },
+    {
+        "name": "Avokado",
+        "url": "https://korpa.mk/partner/avokado",
+        "address": "Strasho Pindzur 7 enterance 1, floor 1, app. 5 Skopje MK Skopje MK, Skopje 1000, North Macedonia",
+        "latitude": 41.999796,
+        "longitude": 21.413667
+    },
+    {
+        "name": "Oriolo",
+        "url": "https://korpa.mk/partner/oriolo",
+        "address": "Наум Наумовски Борче 40, Skopje, North Macedonia",
+        "latitude": 41.993602,
+        "longitude": 21.508322
+    },
+    {
+        "name": "Mrkelangelo's Kitchen",
+        "url": "https://korpa.mk/partner/mrkelangelos-kitchen",
+        "address": "Московска 30, Skopje 1000, North Macedonia",
+        "latitude": 41.998349,
+        "longitude": 21.398477
+    },
+    {
+        "name": "Palma Karposh",
+        "url": "https://korpa.mk/partner/palma-karposh",
+        "address": "Blvd. Partizanski Odredi 121, Skopje 1000, North Macedonia",
+        "latitude": 42.007437,
+        "longitude": 21.371051
+    },
+    {
+        "name": "Proteini SI Centar",
+        "url": "https://korpa.mk/partner/proteini-si-centar",
+        "address": "Mitropolit Teodosij Gologanov Br. 6, Skopje 1000, North Macedonia",
+        "latitude": 41.998602,
+        "longitude": 21.407911
+    },
+    {
+        "name": "Burger King City Mall",
+        "url": "https://korpa.mk/partner/burger-king-city-mall",
+        "address": "293R+R7V, Skopje 1000, North Macedonia",
+        "latitude": 42.0047702,
+        "longitude": 21.3917612
+    }
+]

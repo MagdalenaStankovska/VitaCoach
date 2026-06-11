@@ -156,14 +156,23 @@ export default function Trainings() {
             <Navbar />
 
             <div className="hero">
+                <span className="hero-badge">✦ Training library</span>
                 <h1>Popular Trainings</h1>
                 <p>Pick a proven transformation goal and start your guided plan</p>
+                <div className="hero-stats">
+                    <div><strong>{programs.length}</strong><span>Programs</span></div>
+                    <div><strong>3–8w</strong><span>Duration range</span></div>
+                    <div><strong>Free</strong><span>No equipment needed</span></div>
+                </div>
             </div>
 
             <div className="training-wrapper">
                 <div className="training-grid">
                     {programs.map((program) => (
-                        <article key={program.id} className="training-card">
+                        <article
+                            key={program.id}
+                            className={`training-card training-level-${program.level.toLowerCase().replace(/\s+/g, '-')}`}
+                        >
                             <div className="training-chip-row">
                                 <span className="training-chip training-chip-duration">{program.duration}</span>
                                 <span className="training-chip training-chip-level">{program.level}</span>

@@ -54,6 +54,17 @@ cd backend/fitness-rag-backend
 python app.py
 ```
 
+### Google Calendar connection setup
+
+Google Calendar access needs OAuth credentials from Google Cloud, not only an API key.
+
+Set these backend environment variables before starting the API:
+
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_CALENDAR_REDIRECT_URI` — should match the backend callback URL, for example `http://127.0.0.1:9000/auth/google-calendar/callback`
+- `FRONTEND_URL` — for example `http://localhost:5173`
+
 Visit `http://localhost:5173` to see your beautiful fitness app!
 
 ## 🛠️ Tech Stack
