@@ -1,24 +1,32 @@
 # Environment variables
 .env
-.env.local
 .env.*
+!.env.example
 
 # Python
 .venv/
+venv/
 __pycache__/
+*.pyc
 
 # Node
 node_modules/
 dist/
+dist-ssr/
 build/
 
 # IDE
-.idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
 
+# User data / backups
 backup/
+data/users.json
+data/plans.json
+*.bak
 
-# Browser profiles
+# Browser automation profiles
 korpa_profile/
 sportmaster_profile/
 
@@ -26,14 +34,6 @@ sportmaster_profile/
 gyms_dataset.json
 restaurants_dataset.json
 
-# Python
-__pycache__/
-*.pyc
-# OS
-.DS_Store
-
-# Scraper / browser data (VERY IMPORTANT)
-fitness-rag-backend/korpa_profile/
-data/users.json
-data/plans.json
-*.bak
+# Logs
+logs
+*.log

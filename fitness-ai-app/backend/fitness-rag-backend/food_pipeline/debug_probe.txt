@@ -1,2 +1,0 @@
-href_count=2
-cat_count=0
