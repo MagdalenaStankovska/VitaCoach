@@ -66,6 +66,7 @@ GOOGLE_CALENDAR_REDIRECT_URI = os.getenv(
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 GARMIN_EMAIL = os.getenv("GARMIN_EMAIL", "")
 GARMIN_PASSWORD = os.getenv("GARMIN_PASSWORD", "")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")
 GOOGLE_CALENDAR_SCOPES = [
     "https://www.googleapis.com/auth/calendar.events",
     "https://www.googleapis.com/auth/calendar.readonly",
@@ -1612,7 +1613,7 @@ def load_data_to_chroma():
     conn = psycopg2.connect(
         dbname="fitness_rag",
         user="postgres",
-        password="...123Finki",
+        password=DB_PASSWORD,
         host="localhost",
         port="5432"
     )
@@ -1855,7 +1856,7 @@ def ask(q: Query):
             conn = psycopg2.connect(
                 dbname="fitness_rag",
                 user="postgres",
-                password="...123Finki",
+                password=DB_PASSWORD,
                 host="localhost",
                 port="5432"
             )

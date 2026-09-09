@@ -1,6 +1,10 @@
+import os
 import psycopg2
+from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
 import chromadb
+
+load_dotenv()
 
 print("Loading model...")
 model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -8,7 +12,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 conn = psycopg2.connect(
     dbname="fitness_rag",
     user="postgres",
-    password="...123Finki",
+    password=os.getenv("DB_PASSWORD"),
     host="localhost",
     port="5432"
 )
