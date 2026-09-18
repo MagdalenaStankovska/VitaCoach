@@ -27,8 +27,11 @@ ids = [str(row[0]) for row in rows]
 print("Creating embeddings...")
 embeddings = model.encode(texts).tolist()
 
+# Explicit distance space (see app.py for the full rationale): Chroma
+# silently defaults to l2 with no metadata — make it explicit so
+# DISTANCE_THRESHOLD stays meaningful.
 client = chromadb.Client()
-collection = client.get_or_create_collection(name="fitness")
+collection = client.get_or_create_collection(name="fitness", metadata={"hnsw:space": "l2"})
 
 collection.add(
     documents=texts,
