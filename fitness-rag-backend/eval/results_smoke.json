@@ -1,0 +1,69 @@
+{
+  "results": [
+    {
+      "id": "q001",
+      "category": "muscle-group",
+      "query": "What are the best exercises for building bigger biceps?",
+      "retrieved_count": 8,
+      "scores": {
+        "faithfulness": 5,
+        "answer_relevance": 5,
+        "context_precision": 0.5,
+        "rationale": "The answer directly and completely addresses the question, drawing accurate information from the context and supplementing it with uncontroversial general fitness knowledge, though it only uses half of the provided documents."
+      },
+      "judge_error": null
+    },
+    {
+      "id": "q002",
+      "category": "muscle-group",
+      "query": "Give me exercises that target the hamstrings.",
+      "retrieved_count": 8,
+      "scores": {
+        "faithfulness": 5,
+        "answer_relevance": 5,
+        "context_precision": 0.875,
+        "rationale": "The answer provides a comprehensive list of hamstring exercises directly supported by the retrieved context and includes uncontroversial general fitness knowledge, omitting only one document describing an exercise that isolates glutes rather than hamstrings."
+      },
+      "judge_error": null
+    },
+    {
+      "id": "q003",
+      "category": "equipment-constrained",
+      "query": "What chest exercises can I do with no equipment at home?",
+      "retrieved_count": 8,
+      "scores": {
+        "faithfulness": 5,
+        "answer_relevance": 5,
+        "context_precision": 0.25,
+        "rationale": "The answer accurately identifies and describes several no-equipment chest exercises, explicitly grounding two of them in the provided context and supplementing with uncontroversial general fitness knowledge, while correctly filtering out equipment-based exercises from the context."
+      },
+      "judge_error": null
+    },
+    {
+      "id": "q004",
+      "category": "equipment-constrained",
+      "query": "Give me a full-body workout using only a pair of dumbbells.",
+      "retrieved_count": 8,
+      "scores": {
+        "faithfulness": 5,
+        "answer_relevance": 5,
+        "context_precision": 0.375,
+        "rationale": "The answer provides a complete and relevant full-body dumbbell workout, accurately leveraging three specific points from the retrieved context, but leaves a majority of the provided documents unused."
+      },
+      "judge_error": null
+    },
+    {
+      "id": "q005",
+      "category": "goal-directed",
+      "query": "I want to lose fat while preserving muscle - what should my training look like?",
+      "retrieved_count": 8,
+      "scores": {
+        "faithfulness": 5,
+        "answer_relevance": 5,
+        "context_precision": 1.0,
+        "rationale": "The answer is highly faithful to the context, directly supporting almost every claim with quotes or clear derivations from the provided documents, while also offering a comprehensive and highly relevant response to the user's specific training inquiry by utilizing all retrieved documents."
+      },
+      "judge_error": null
+    }
+  ]
+}

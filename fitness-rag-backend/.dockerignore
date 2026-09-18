@@ -1,0 +1,9 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.idea/
+korpa_profile/
+sportmaster_profile/
+*.log
+data/users.json.bak

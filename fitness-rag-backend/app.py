@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, Header, HTTPException
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from pydantic import BaseModel, Field
 import chromadb
 from google import genai
@@ -20,11 +20,14 @@ from pathlib import Path
 from urllib.parse import quote, urlencode
 from datetime import datetime, timedelta
 from math import radians, cos, sin, asin, sqrt
+from cryptography.fernet import Fernet, InvalidToken
 
 try:
     from garminconnect import Garmin
 except Exception:
     Garmin = None
+
+from garmin_adapters import build_garmin_adapter, load_dashboard as _garmin_load_dashboard
 
 # ==========================
 # LOAD ENV (GEMINI)
@@ -66,7 +69,66 @@ GOOGLE_CALENDAR_REDIRECT_URI = os.getenv(
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 GARMIN_EMAIL = os.getenv("GARMIN_EMAIL", "")
 GARMIN_PASSWORD = os.getenv("GARMIN_PASSWORD", "")
+GARMIN_ADAPTER = os.getenv("GARMIN_ADAPTER", "legacy")
+GARMIN_HEALTH_CLIENT_ID = os.getenv("GARMIN_HEALTH_CLIENT_ID", "")
+GARMIN_HEALTH_CLIENT_SECRET = os.getenv("GARMIN_HEALTH_CLIENT_SECRET", "")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+# Local dev default unchanged ("localhost"); Docker Compose overrides this to
+# "postgres" (the service name) so the backend container can reach the
+# postgres container -- "localhost" inside a container means the container
+# itself, not a sibling service.
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+
+# --- Blood-panel image encryption at rest (Fernet) --------------------------
+HEALTH_DATA_KEY = os.getenv("HEALTH_DATA_KEY", "")
+_fernet = Fernet(HEALTH_DATA_KEY.encode()) if HEALTH_DATA_KEY else None
+
+
+def _looks_encrypted(value: str) -> bool:
+    """Plaintext bloodTestImage values are always data-URLs ("data:...");
+    Fernet tokens never start with "data:" — cheap, reliable discriminator
+    between legacy plaintext and already-encrypted values."""
+    return bool(value) and not value.startswith("data:")
+
+
+def encrypt_blood_image(plaintext_data_url: str | None) -> str | None:
+    """No-op (returns input unchanged) if there's nothing to encrypt, no key
+    is configured, or the value already looks encrypted — never raises."""
+    if not plaintext_data_url or not _fernet:
+        return plaintext_data_url
+    if _looks_encrypted(plaintext_data_url):
+        return plaintext_data_url
+    return _fernet.encrypt(plaintext_data_url.encode()).decode()
+
+
+def decrypt_blood_image(stored_value: str | None) -> str | None:
+    """Degrades to None on any decrypt failure (bad/missing key, corrupt
+    token) instead of raising — matches the _safe_garmin_call convention
+    applied to a crypto operation instead of a network call."""
+    if not stored_value or not _fernet or not _looks_encrypted(stored_value):
+        return stored_value
+    try:
+        return _fernet.decrypt(stored_value.encode()).decode()
+    except InvalidToken:
+        return None
+
+
+def _assert_health_data_key_present_if_needed() -> None:
+    """Startup guard: refuses to boot with a clear error if HEALTH_DATA_KEY is
+    unset while encrypted health data already exists in data/users.json —
+    otherwise that data would be silently unreadable forever."""
+    if HEALTH_DATA_KEY:
+        return
+    for existing_user in load_users():
+        blood_img = (existing_user.get("preferences") or {}).get("bloodTestImage")
+        if blood_img and _looks_encrypted(blood_img):
+            raise SystemExit(
+                "HEALTH_DATA_KEY is unset but encrypted health data exists in "
+                "data/users.json. Set HEALTH_DATA_KEY before starting the app."
+            )
+
+
 GOOGLE_CALENDAR_SCOPES = [
     "https://www.googleapis.com/auth/calendar.events",
     "https://www.googleapis.com/auth/calendar.readonly",
@@ -298,6 +360,16 @@ def require_user(authorization: str | None = Header(default=None)):
     return user
 
 
+def optional_user(authorization: str | None = Header(default=None)):
+    """Like require_user, but never raises — returns None for missing/invalid tokens
+    so endpoints can support both authenticated and anonymous callers."""
+    token = ""
+    if authorization and authorization.lower().startswith("bearer "):
+        token = authorization.split(" ", 1)[1].strip()
+
+    return find_user_by_token(token)
+
+
 class RegisterRequest(BaseModel):
     name: str
     email: str
@@ -375,75 +447,31 @@ def _connect_to_garmin(email: str, password: str):
         raise HTTPException(status_code=400, detail=f"Garmin connection failed: {exc}") from exc
 
 
-def _safe_garmin_call(api, method_name: str, *args, **kwargs):
-    method = getattr(api, method_name, None)
-    if not callable(method):
-        return None
-    try:
-        return method(*args, **kwargs)
-    except Exception:
-        return None
-
-
-def _extract_sleep_hours(sleep_payload: dict | None):
-    payload = sleep_payload or {}
-    daily = payload.get("dailySleepDTO") if isinstance(payload, dict) else {}
-    candidates = [
-        daily.get("sleepTimeSeconds") if isinstance(daily, dict) else None,
-        payload.get("sleepTimeSeconds") if isinstance(payload, dict) else None,
-    ]
-    for seconds in candidates:
-        if isinstance(seconds, (int, float)) and seconds > 0:
-            return round(float(seconds) / 3600.0, 2)
-    return None
-
-
 def _load_garmin_dashboard(email: str, password: str):
-    if Garmin is None:
+    """Builds a GarminAdapter per GARMIN_ADAPTER (legacy by default) and
+    assembles the dashboard through its 5-method interface. Behavior for the
+    default "legacy" adapter is unchanged from before this refactor — same
+    single get_user_summary fetch backing steps/active-calories/distance,
+    same _safe_garmin_call-wrapped calls underneath (see garmin_adapters.py)."""
+    if GARMIN_ADAPTER.lower() == "legacy" and Garmin is None:
         raise HTTPException(
             status_code=500,
             detail="garminconnect package is not installed. Run: pip install garminconnect",
         )
 
-    today = datetime.utcnow().date().isoformat()
-    api = Garmin(email, password)
     try:
-        api.login()
+        adapter = build_garmin_adapter(
+            email, password, GARMIN_ADAPTER, GARMIN_HEALTH_CLIENT_ID, GARMIN_HEALTH_CLIENT_SECRET
+        )
     except Exception as exc:
         raise HTTPException(status_code=400, detail=f"Garmin login failed: {exc}") from exc
 
-    summary = _safe_garmin_call(api, "get_user_summary", today) or {}
-    sleep_data = _safe_garmin_call(api, "get_sleep_data", today) or {}
-
-    activities = _safe_garmin_call(api, "get_activities", 0, 7)
-    if not isinstance(activities, list):
-        activities = []
-
-    normalized_activities = []
-    for activity in activities[:5]:
-        if not isinstance(activity, dict):
-            continue
-        normalized_activities.append(
-            {
-                "name": activity.get("activityName") or activity.get("activityType", {}).get("typeKey") or "Activity",
-                "start": activity.get("startTimeLocal") or activity.get("startTimeGMT"),
-                "durationSeconds": activity.get("duration"),
-                "calories": activity.get("calories"),
-                "distanceMeters": activity.get("distance"),
-            }
-        )
-
-    return {
-        "date": today,
-        "fullName": _safe_garmin_call(api, "get_full_name"),
-        "steps": summary.get("totalSteps"),
-        "calories": summary.get("totalKilocalories"),
-        "activeCalories": summary.get("activeKilocalories"),
-        "distanceMeters": summary.get("totalDistanceMeters"),
-        "sleepHours": _extract_sleep_hours(sleep_data),
-        "sleep": sleep_data,
-        "activities": normalized_activities,
-    }
+    try:
+        return _garmin_load_dashboard(adapter)
+    except NotImplementedError as exc:
+        raise HTTPException(status_code=501, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Garmin dashboard fetch failed: {exc}") from exc
 
 
 @app.post("/auth/register")
@@ -529,13 +557,24 @@ class PreferencesPayload(BaseModel):
     height_cm: float | None = None
     weight_kg: float | None = None
     gender: str | None = None
+    age: int | None = None
     bloodTestImage: str | None = None  # data URL (base64)
+
+
+def _preferences_response(prefs: dict) -> dict:
+    """Adds derived (never persisted) bmr/tdee to a preferences dict for API
+    responses, so they're always computed fresh from the latest
+    height/weight/age/gender and can never go stale."""
+    bmr, tdee = compute_bmr_tdee(
+        prefs.get("height_cm"), prefs.get("weight_kg"), prefs.get("age"), prefs.get("gender")
+    )
+    return {"preferences": {**prefs, "bmr": bmr, "tdee": tdee}}
 
 
 @app.get("/users/me/preferences")
 def get_my_preferences(user=Depends(require_user)):
     """Return stored preferences for current user."""
-    return {"preferences": user.get("preferences", {})}
+    return _preferences_response(user.get("preferences", {}))
 
 
 @app.put("/users/me/preferences")
@@ -556,8 +595,10 @@ def save_my_preferences(payload: PreferencesPayload, user=Depends(require_user))
                 prefs["weight_kg"] = payload.weight_kg
             if payload.gender is not None:
                 prefs["gender"] = payload.gender
+            if payload.age is not None:
+                prefs["age"] = payload.age
             if payload.bloodTestImage is not None:
-                prefs["bloodTestImage"] = payload.bloodTestImage
+                prefs["bloodTestImage"] = encrypt_blood_image(payload.bloodTestImage)
             existing["preferences"] = prefs
             updated_user = existing
             break
@@ -566,15 +607,29 @@ def save_my_preferences(payload: PreferencesPayload, user=Depends(require_user))
         raise HTTPException(status_code=404, detail="User not found.")
 
     save_users(users)
-    return {"preferences": updated_user.get("preferences", {})}
+    return _preferences_response(updated_user.get("preferences", {}))
+
+
+def _parse_data_url(data_url: str | None):
+    """Splits a "data:<mime>;base64,<payload>" string into (mime_type, base64_payload).
+    Returns (None, None) on anything that doesn't look like a well-formed data URL —
+    never raises, matches the codebase's degrade-not-raise convention."""
+    if not data_url or not data_url.startswith("data:") or "," not in data_url:
+        return None, None
+    header, payload = data_url.split(",", 1)
+    if ";base64" not in header:
+        return None, None
+    mime_type = header[len("data:"):].split(";", 1)[0] or "application/octet-stream"
+    return mime_type, payload
 
 
 @app.post("/users/me/preferences/analyze")
 def analyze_preferences(user=Depends(require_user)):
     """Use the Gemini model to analyze stored preferences and an optional blood-test image.
 
-    The analysis is a best-effort textual interpretation. If a blood test image is provided
-    we include a brief note about it (base64 truncated) so the model can reason about it when possible.
+    If a readable blood-test image is on file, it is decrypted and sent to Gemini as
+    real image data (multimodal vision call) so the model can actually read it —
+    not just a text note about its length, as before.
     """
     prefs = user.get("preferences", {})
     if not client_llm:
@@ -584,29 +639,45 @@ def analyze_preferences(user=Depends(require_user)):
     height = prefs.get("height_cm")
     weight = prefs.get("weight_kg")
     gender = prefs.get("gender")
-    blood_img = prefs.get("bloodTestImage")
+    blood_img_encrypted = prefs.get("bloodTestImage")
+    blood_img = decrypt_blood_image(blood_img_encrypted) if blood_img_encrypted else None
 
+    image_parts = None
     img_note = "no blood test image provided"
-    if blood_img:
-        # avoid sending huge inline data — only include a short prefix and length
-        prefix = str(blood_img)[:200]
-        img_note = f"blood test image included (base64 prefix: {prefix}... , total_length={len(blood_img)})"
+    if blood_img_encrypted and blood_img is None:
+        img_note = "blood test image present but unreadable (decryption failed)"
+    elif blood_img:
+        mime_type, b64_payload = _parse_data_url(blood_img)
+        if mime_type and b64_payload:
+            image_parts = [{"inline_data": {"mime_type": mime_type, "data": b64_payload}}]
+            img_note = "a blood test panel image is attached below — read the values directly from it"
+        else:
+            img_note = "blood test image present but in an unrecognized format"
 
     prompt_lines = [
         "You are a certified medical-informed nutrition coach.",
-        "Analyze the following user data and provide actionable dietary and training recommendations. If a blood-test image is available, state what additional structured blood-data you would need to give clinical interpretations and offer conservative guidance.",
+        "Analyze the following user data and provide actionable dietary and training recommendations.",
         "User preferences and info:",
         f"- Goal: {goal}",
         f"- Height (cm): {height}",
         f"- Weight (kg): {weight}",
         f"- Gender: {gender}",
         f"- {img_note}",
-        "Provide:\n1) Short summary of relevant focus points\n2) Nutritional recommendations\n3) Training emphasis\n4) If blood-test image is present, list which blood markers to extract and what ranges/values would change recommendations.\nAnswer concisely and clearly."
+        (
+            "If a blood test image is attached, read the actual marker names and values "
+            "from it and reference specific ones (e.g. cholesterol, glucose, vitamin D, "
+            "iron/ferritin) in your recommendations, flagging anything outside a typical "
+            "healthy range as a conservative, non-diagnostic observation. If no image is "
+            "attached, state what markers you'd want to see instead."
+            if image_parts
+            else "No blood test image is attached — state what markers you'd want to see instead."
+        ),
+        "Provide:\n1) Short summary of relevant focus points\n2) Nutritional recommendations\n3) Training emphasis\n4) If blood-test values are visible, list the specific markers/values you read and how they inform the recommendations above.\nAnswer concisely and clearly."
     ]
 
     prompt = "\n".join([str(l) for l in prompt_lines])
     try:
-        text, err = _generate_text_with_retry(prompt)
+        text, err = _generate_text_with_retry(prompt, image_parts=image_parts)
         if not text:
             raise HTTPException(status_code=500, detail=f"AI analysis failed: {err}")
         return {"analysis": text}
@@ -1225,9 +1296,12 @@ def get_schedule_recommendations(payload: ScheduleAnalysisRequest, user=Depends(
         
         # Build prompt for Gemini
         lang = payload.language if payload.language in ["English", "Macedonian"] else "English"
-        
+        prefs_block = build_prefs_block(user)
+
         prompt = f"""
 You are a certified personal trainer and nutrition expert.
+
+{prefs_block}
 
 Analyze the user's Google Calendar schedule for the next {payload.daysAhead} days:
 
@@ -1329,14 +1403,56 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 # ==========================
 # CHROMA VECTOR DB
 # ==========================
-client = chromadb.Client()
-collection = client.get_or_create_collection(name="fitness")
+# Local dev (no env vars set): today's in-memory, ephemeral client, rebuilt
+# from Postgres on every boot — unchanged default behavior. In Docker, the
+# backend service is given CHROMA_HOST/CHROMA_PORT and talks to the
+# standalone chroma container instead, so the index survives restarts.
+_chroma_host = os.getenv("CHROMA_HOST", "")
+if _chroma_host:
+    client = chromadb.HttpClient(host=_chroma_host, port=int(os.getenv("CHROMA_PORT", "8000")))
+else:
+    client = chromadb.Client()
+# Explicit distance space: Chroma silently defaults to l2 (squared Euclidean,
+# range [0,4] on normalized vectors) when no metadata is given. Under cosine
+# the range is [0,2], which would make DISTANCE_THRESHOLD=2.0 below inert —
+# make the assumption explicit instead of relying on the silent default.
+collection = client.get_or_create_collection(name="fitness", metadata={"hnsw:space": "l2"})
+
+
+def _assert_collection_space_is_l2(coll) -> None:
+    """Startup check: confirms the collection's configured HNSW distance
+    space actually is l2. Logs a loud warning (does not crash the app) if
+    it's anything else, since that would silently make DISTANCE_THRESHOLD
+    inert — exactly the reviewer's objection."""
+    space = None
+    try:
+        config = getattr(coll, "configuration_json", None)
+        if config:
+            space = (config.get("hnsw") or {}).get("space")
+        if space is None:
+            space = (coll.metadata or {}).get("hnsw:space")
+    except Exception as e:
+        print(f"[WARNING] Could not verify Chroma collection distance space: {e}")
+        return
+
+    if space != "l2":
+        print(
+            f"[WARNING] Chroma collection 'fitness' is configured with distance "
+            f"space '{space}', not 'l2'. DISTANCE_THRESHOLD is calibrated for "
+            f"l2's [0,4] range; under '{space}' it may filter nothing or "
+            f"everything. Investigate before trusting retrieval numbers."
+        )
+    else:
+        print("[STARTUP] Chroma collection 'fitness' distance space confirmed: l2")
+
+
+_assert_collection_space_is_l2(collection)
 
 
 YOUTUBE_KEY = os.getenv("YOUTUBE_API_KEY")
-EXERCISE_RECOMMENDATION_LIMIT = 8
-VECTOR_SEARCH_RESULTS = 24
-DISTANCE_THRESHOLD = 2.0
+EXERCISE_RECOMMENDATION_LIMIT = int(os.getenv("EXERCISE_RECOMMENDATION_LIMIT", "8"))
+VECTOR_SEARCH_RESULTS = int(os.getenv("VECTOR_SEARCH_RESULTS", "24"))
+DISTANCE_THRESHOLD = float(os.getenv("DISTANCE_THRESHOLD", "2.0"))
 YOUTUBE_FALLBACK = "https://www.youtube.com/embed/_l3ySVKYVJ8"
 IMAGE_FALLBACK_DATA_URL = (
     "data:image/png;base64,"
@@ -1614,8 +1730,8 @@ def load_data_to_chroma():
         dbname="fitness_rag",
         user="postgres",
         password=DB_PASSWORD,
-        host="localhost",
-        port="5432"
+        host=DB_HOST,
+        port=DB_PORT
     )
     cursor = conn.cursor()
 
@@ -1653,6 +1769,9 @@ def load_data_to_chroma():
 
     cursor.close()
     conn.close()
+
+# Fail fast if encrypted health data exists but the key to read it is missing.
+_assert_health_data_key_present_if_needed()
 
 # load once on startup
 load_data_to_chroma()
@@ -1724,16 +1843,24 @@ Sleep well, stay hydrated and eat enough protein.
 """
 
 
-def _generate_text_with_retry(prompt: str):
+def _generate_text_with_retry(prompt: str, image_parts: list | None = None):
+    """image_parts, when given, is a list of {"inline_data": {"mime_type", "data"}}
+    dicts appended after the text part, for multimodal (vision) calls — e.g.
+    blood-test image analysis. Existing callers are unaffected (defaults to
+    text-only)."""
     if not client_llm:
         return None, "Gemini API key is missing"
+
+    parts = [{"text": prompt}]
+    if image_parts:
+        parts.extend(image_parts)
 
     last_error = ""
     for attempt in range(GEMINI_MAX_RETRIES + 1):
         try:
             resp = client_llm.models.generate_content(
                 model=GEMINI_TEXT_MODEL,
-                contents=[{"role": "user", "parts": [{"text": prompt}]}],
+                contents=[{"role": "user", "parts": parts}],
             )
             text = extract_text(resp)
             if text:
@@ -1822,13 +1949,120 @@ def select_recommended_documents(documents, distances, limit=EXERCISE_RECOMMENDA
 
     return relevant_docs[:limit]
 
+
+def _retrieval_diagnostics(documents, distances, selected, limit=None) -> dict:
+    """Counts how many candidates actually passed DISTANCE_THRESHOLD versus
+    how many were back-filled below it by select_recommended_documents, so a
+    calibration study can measure what a binding threshold would cost.
+    Read-only — does not change select_recommended_documents' behavior."""
+    if limit is None:
+        limit = EXERCISE_RECOMMENDATION_LIMIT
+
+    passed = sum(1 for d in distances if d < DISTANCE_THRESHOLD)
+    returned = len(selected)
+    backfilled = max(0, returned - min(passed, limit))
+
+    diag = {
+        "vector_search_results": len(documents),
+        "distance_threshold": DISTANCE_THRESHOLD,
+        "limit": limit,
+        "passed_threshold_count": passed,
+        "returned_count": returned,
+        "backfill_count": backfilled,
+    }
+    print(
+        f"[RETRIEVAL] candidates={diag['vector_search_results']} "
+        f"passed_threshold={passed} returned={returned} backfilled={backfilled} "
+        f"(threshold={DISTANCE_THRESHOLD})"
+    )
+    return diag
+
+
+# Mifflin-St Jeor activity multiplier assumption. The task doesn't ask for a
+# per-user activity-level UI, so we document a single fixed "lightly active"
+# PAL here rather than guessing at one. See CHANGES_FOR_PAPER.md.
+BMR_ACTIVITY_MULTIPLIER = 1.375
+
+
+def compute_bmr_tdee(height_cm, weight_kg, age, gender):
+    """Mifflin-St Jeor BMR + TDEE. Returns (None, None) if any input is missing.
+    s = +5 (male) / -161 (female); gender="other"/unrecognized uses the
+    arithmetic midpoint (-78) as a documented, non-clinical approximation —
+    Mifflin-St Jeor has no validated non-binary term in the literature."""
+    if not height_cm or not weight_kg or not age or not gender:
+        return None, None
+
+    try:
+        height_cm = float(height_cm)
+        weight_kg = float(weight_kg)
+        age = float(age)
+    except (TypeError, ValueError):
+        return None, None
+
+    s = {"male": 5, "female": -161}.get(str(gender).strip().lower(), -78)
+    bmr = 10 * weight_kg + 6.25 * height_cm - 5 * age + s
+    tdee = bmr * BMR_ACTIVITY_MULTIPLIER
+    return round(bmr, 1), round(tdee, 1)
+
+
+def build_prefs_block(user: dict | None) -> str:
+    """Compact natural-language block summarizing a user's stored preferences,
+    for splicing into generation prompts only. Returns "" when there is no user
+    or no preferences set. Must NEVER be passed to the embedding model — prompts
+    only (see the CONTRACT comment above the model.encode(...) call in /ask)."""
+    if not user:
+        return ""
+
+    prefs = user.get("preferences", {}) or {}
+    lines = []
+
+    goal = prefs.get("goal")
+    if goal:
+        lines.append(f"- Goal: {goal}")
+
+    gender = prefs.get("gender")
+    age = prefs.get("age")
+    if gender or age:
+        who = " ".join(filter(None, [f"{age}-year-old" if age else "", gender or ""])).strip()
+        if who:
+            lines.append(f"- User: {who}")
+
+    height_cm = prefs.get("height_cm")
+    weight_kg = prefs.get("weight_kg")
+    if height_cm:
+        lines.append(f"- Height: {height_cm} cm")
+    if weight_kg:
+        lines.append(f"- Weight: {weight_kg} kg")
+
+    bmr, tdee = compute_bmr_tdee(height_cm, weight_kg, age, gender)
+    if bmr is not None and tdee is not None:
+        lines.append(f"- Estimated BMR: {bmr} kcal/day, TDEE: {tdee} kcal/day (Mifflin-St Jeor)")
+
+    if prefs.get("bloodTestImage"):
+        lines.append("- User has provided a blood test panel image (not decoded here).")
+
+    if not lines:
+        return ""
+
+    return "User profile (use to personalize advice, do not repeat back verbatim):\n" + "\n".join(lines)
+
+
 # MAIN ENDPOINT
 # ==========================
 @app.post("/ask")
-def ask(q: Query):
+def ask(q: Query, user: dict | None = Depends(optional_user)):
     try:
+        # CONTRACT: model.encode receives ONLY the raw question string — never
+        # interpolate preferences/context here. This separation is a claimed
+        # contribution of the paper (all-MiniLM-L6-v2 truncates at 256
+        # word-pieces) and is regression-tested in test_app.py.
         # 1️⃣ embed question
         query_embedding = model.encode([q.question]).tolist()
+
+        # Preferences are for the GENERATION prompts only (below), never for
+        # retrieval — built here, spliced into prompt text, kept far from
+        # anything passed to the encoder.
+        prefs_block = build_prefs_block(user)
 
         # 2️⃣ vector search with scores
         results = collection.query(
@@ -1841,7 +2075,9 @@ def ask(q: Query):
         distances = results.get("distances", [[]])[0]
 
         # 3️⃣ filter relevant docs and keep up to 8 unique recommendations
+        raw_docs, raw_distances = docs, distances
         docs = select_recommended_documents(docs, distances)
+        retrieval_diag = _retrieval_diagnostics(raw_docs, raw_distances, docs)
         # 4️⃣ decide if we use context
         use_context = len(docs) > 0
 
@@ -1857,8 +2093,8 @@ def ask(q: Query):
                 dbname="fitness_rag",
                 user="postgres",
                 password=DB_PASSWORD,
-                host="localhost",
-                port="5432"
+                host=DB_HOST,
+                port=DB_PORT
             )
             cursor = conn.cursor()
 
@@ -1886,6 +2122,8 @@ def ask(q: Query):
         ALLOWED EXERCISES:
         {allowed_exercises}
 
+        {prefs_block}
+
         User request:
         {q.question}
 
@@ -1911,7 +2149,8 @@ def ask(q: Query):
             return {
                 "question": q.question,
                 "type": "hybrid_database_plan",
-                "answer": answer
+                "answer": answer,
+                "personalized": bool(user),
             }
 
         # 5️⃣ prompt
@@ -1920,6 +2159,8 @@ def ask(q: Query):
 You are a certified professional fitness coach.
 
 {context_block}
+
+{prefs_block}
 
 Question:
 {q.question}
@@ -1973,11 +2214,124 @@ FULL PLAN:
         return {
             "question": q.question,
             "answer": answer,
-            "exercises": structured_exercises
+            "exercises": structured_exercises,
+            "personalized": bool(user),
+            "retrieval": retrieval_diag,
         }
 
     except Exception as e:
         return {"error": str(e)}
+
+
+def _run_retrieval_for_chat(question: str, user: dict | None):
+    """Same retrieval steps as /ask's chat branch above (embed -> vector
+    search -> select_recommended_documents -> diagnostics -> context_block),
+    factored out so /ask/stream (below) can reuse them without touching
+    /ask's already-verified body. CONTRACT: model.encode receives ONLY the
+    raw question — same guarantee as /ask, regression-tested in
+    test_app.py."""
+    query_embedding = model.encode([question]).tolist()
+    prefs_block = build_prefs_block(user)
+
+    results = collection.query(
+        query_embeddings=query_embedding,
+        n_results=VECTOR_SEARCH_RESULTS,
+        include=["documents", "distances"],
+    )
+    raw_docs = results.get("documents", [[]])[0]
+    raw_distances = results.get("distances", [[]])[0]
+    docs = select_recommended_documents(raw_docs, raw_distances)
+    retrieval_diag = _retrieval_diagnostics(raw_docs, raw_distances, docs)
+
+    if docs:
+        context_block = "Context:\n" + " ".join(docs)
+    else:
+        context_block = "No specific exercise context available."
+
+    return docs, prefs_block, context_block, retrieval_diag
+
+
+def _build_structured_exercises(docs):
+    """Same exercise-card assembly as /ask's chat branch, factored out for
+    reuse by /ask/stream."""
+    structured_exercises = []
+    for d in docs:
+        label = _extract_exercise_label(d)
+        structured_exercises.append({
+            "name": d,
+            "label": label,
+            "video": youtube_link_for(label),
+            "images": [generate_exercise_image(label)],
+            "raw": d,
+        })
+    return structured_exercises
+
+
+@app.post("/ask/stream")
+def ask_stream(q: Query, user: dict | None = Depends(optional_user)):
+    """SSE variant of /ask's chat branch. Streams generated text as it
+    arrives via Gemini's generate_content_stream, then a final event
+    carrying the exercise cards (delivered after the text stream, as today's
+    non-streaming /ask does) plus retrieval diagnostics. Retrieval itself is
+    NOT streamed — it runs synchronously up front, reusing the exact same
+    path as /ask's chat branch. On any generation failure, yields a single
+    error event instead of raising mid-stream or leaving the connection
+    hanging; the frontend falls back to the non-streaming /ask in that case."""
+    docs, prefs_block, context_block, retrieval_diag = _run_retrieval_for_chat(q.question, user)
+    lang = "Macedonian" if is_mk(q.question) else "English"
+    prompt = f"""
+You are a certified professional fitness coach.
+
+{context_block}
+
+{prefs_block}
+
+Question:
+{q.question}
+
+Instructions:
+- Answer ONLY in {lang}
+- Do NOT use any other language
+- If context exists, use it; otherwise use general fitness knowledge
+- You MUST structure your response with EXACTLY these two labeled sections (no bold, no markdown on the labels):
+
+SHORT ANSWER:
+[Write exactly 2-3 sentences summarising the core advice]
+
+FULL PLAN:
+[Write detailed advice, tips, steps, or a training plan here]
+"""
+
+    def event_gen():
+        try:
+            if not client_llm:
+                raise RuntimeError("Gemini API key is not configured on the server.")
+            stream = client_llm.models.generate_content_stream(
+                model=GEMINI_TEXT_MODEL,
+                contents=[{"role": "user", "parts": [{"text": prompt}]}],
+            )
+            for chunk in stream:
+                text = extract_text(chunk)
+                if text:
+                    yield f"data: {json.dumps({'delta': text})}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e), 'done': True})}\n\n"
+            return
+
+        exercises = _build_structured_exercises(docs)
+        yield (
+            "data: "
+            + json.dumps({
+                "done": True,
+                "exercises": exercises,
+                "retrieval": retrieval_diag,
+                "personalized": bool(user),
+            })
+            + "\n\n"
+        )
+
+    return StreamingResponse(event_gen(), media_type="text/event-stream")
+
 
 @app.get("/exercise-assets")
 def exercise_assets(text: str):

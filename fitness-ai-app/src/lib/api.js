@@ -64,6 +64,78 @@ export async function apiRequest(path, { method = "GET", body, token = getAuthTo
 	return data;
 }
 
+export function askQuestion(question) {
+	// Auth is optional server-side — apiRequest attaches the token when present
+	// (from localStorage via getAuthToken()) so signed-in users get their
+	// preferences applied, and anonymous callers still work unauthenticated.
+	return apiRequest("/ask", { method: "POST", body: { question } });
+}
+
+// Streaming variant of askQuestion. apiRequest can't be reused here — it does
+// a single whole-body response.json()/.text() parse, not chunk-aware — so
+// this is a dedicated sibling that reads the response body incrementally and
+// parses Server-Sent-Events ("data: {...}\n\n") frames as they arrive.
+// onDelta(text) fires per streamed chunk, onDone(payload) once with the
+// final exercises/retrieval/personalized payload, onError(message) on any
+// failure (network error, non-2xx, or an {error,...} SSE frame from the
+// server) so the caller can fall back to the non-streaming askQuestion().
+export async function askQuestionStream(question, { onDelta, onDone, onError } = {}) {
+	const token = getAuthToken();
+	const headers = { "Content-Type": "application/json" };
+	if (token) headers.Authorization = `Bearer ${token}`;
+
+	let response;
+	try {
+		response = await fetch(`${API_BASE}/ask/stream`, {
+			method: "POST",
+			headers,
+			body: JSON.stringify({ question }),
+		});
+	} catch (err) {
+		onError?.(err.message || "Network error");
+		return;
+	}
+
+	if (!response.ok || !response.body) {
+		onError?.(`Stream request failed (status ${response.status})`);
+		return;
+	}
+
+	const reader = response.body.getReader();
+	const decoder = new TextDecoder();
+	let buffer = "";
+
+	while (true) {
+		const { value, done } = await reader.read();
+		if (done) break;
+		buffer += decoder.decode(value, { stream: true });
+
+		let sepIndex;
+		while ((sepIndex = buffer.indexOf("\n\n")) !== -1) {
+			const frame = buffer.slice(0, sepIndex);
+			buffer = buffer.slice(sepIndex + 2);
+			if (!frame.startsWith("data: ")) continue;
+
+			let payload;
+			try {
+				payload = JSON.parse(frame.slice("data: ".length));
+			} catch {
+				continue; // skip malformed frame rather than aborting the stream
+			}
+
+			if (payload.error) {
+				onError?.(payload.error);
+				if (payload.done) return;
+			} else if (payload.done) {
+				onDone?.(payload);
+				return;
+			} else if (typeof payload.delta === "string") {
+				onDelta?.(payload.delta);
+			}
+		}
+	}
+}
+
 export function registerUser(payload) {
 	return apiRequest("/auth/register", { method: "POST", body: payload, token: "" });
 }

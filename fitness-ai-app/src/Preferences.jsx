@@ -6,7 +6,7 @@ import { fetchUserPreferences, saveUserPreferences, analyzeUserPreferences } fro
 
 export default function Preferences() {
     const { isAuthenticated, token, initializing } = useAuth();
-    const [prefs, setPrefs] = useState({ goal: "", height_cm: "", weight_kg: "", gender: "" });
+    const [prefs, setPrefs] = useState({ goal: "", height_cm: "", weight_kg: "", gender: "", age: "", bmr: null, tdee: null });
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
@@ -25,9 +25,20 @@ export default function Preferences() {
                     height_cm: p.height_cm || "",
                     weight_kg: p.weight_kg || "",
                     gender: p.gender || "",
+                    age: p.age || "",
+                    bmr: p.bmr ?? null,
+                    tdee: p.tdee ?? null,
                     bloodTestImage: p.bloodTestImage || null,
                 });
-                if (p.bloodTestImage) setImagePreview(p.bloodTestImage);
+                // bloodTestImage is encrypted at rest — the server only ever
+                // returns a renderable data URL right after a fresh upload in
+                // this same session. Once persisted/reloaded it comes back as
+                // an opaque encrypted token, which we don't try to preview.
+                if (p.bloodTestImage && p.bloodTestImage.startsWith("data:")) {
+                    setImagePreview(p.bloodTestImage);
+                } else {
+                    setImagePreview(null);
+                }
             })
             .catch((err) => {
                 console.error("Failed to load preferences", err);
@@ -83,9 +94,12 @@ export default function Preferences() {
                 height_cm: prefs.height_cm ? Number(prefs.height_cm) : null,
                 weight_kg: prefs.weight_kg ? Number(prefs.weight_kg) : null,
                 gender: prefs.gender || null,
+                age: prefs.age ? Number(prefs.age) : null,
                 bloodTestImage: prefs.bloodTestImage || null,
             };
-            await saveUserPreferences(token, toSave);
+            const res = await saveUserPreferences(token, toSave);
+            const saved = res.preferences || {};
+            setPrefs((p) => ({ ...p, bmr: saved.bmr ?? null, tdee: saved.tdee ?? null }));
             setMessage("✅ Your preferences have been saved successfully!");
             setAnalysis(null);
         } catch (err) {
@@ -215,6 +229,35 @@ export default function Preferences() {
                                         <option value="other">🌈 Other</option>
                                     </select>
                                 </div>
+                                <div className="prefs-form-group">
+                                    <label>
+                                        <span className="prefs-label-emoji">🎂</span>
+                                        Age
+                                    </label>
+                                    <input
+                                        name="age"
+                                        type="number"
+                                        placeholder="e.g., 28"
+                                        value={prefs.age}
+                                        onChange={onChange}
+                                        className="prefs-input"
+                                        min="10"
+                                        max="120"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="prefs-bmr-box">
+                                <span className="prefs-preview-label">🔥 Estimated Energy Needs (Mifflin-St Jeor)</span>
+                                <div className="prefs-bmr-values">
+                                    <span>BMR: <strong>{prefs.bmr != null ? `${prefs.bmr} kcal/day` : "—"}</strong></span>
+                                    <span>TDEE: <strong>{prefs.tdee != null ? `${prefs.tdee} kcal/day` : "—"}</strong></span>
+                                </div>
+                                {prefs.bmr == null && (
+                                    <p style={{ color: "#94a3b8", fontSize: 13, marginTop: 6 }}>
+                                        Fill in height, weight, age and gender, then save to see your estimate.
+                                    </p>
+                                )}
                             </div>
                         </div>
 
@@ -227,6 +270,11 @@ export default function Preferences() {
                             <p style={{ color: "#94a3b8", fontSize: 14, marginBottom: 16 }}>
                                 📸 Upload an image of your blood test results for AI-powered health insights
                             </p>
+                            {prefs.bloodTestImage && !imagePreview && (
+                                <p style={{ color: "#94a3b8", fontSize: 13, marginBottom: 16 }}>
+                                    🔒 A blood test image is on file (encrypted). Upload a new one to replace it.
+                                </p>
+                            )}
                             <div className="prefs-file-input">
                                 <input
                                     id="blood-test-file"
