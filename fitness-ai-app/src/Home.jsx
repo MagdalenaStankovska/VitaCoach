@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import Navbar from "./Navbar.jsx";
 import { setPlanMedia } from "./lib/planMediaStore.js";
-import { fetchUserPlan, saveUserPlan } from "./lib/api.js";
+import { fetchUserPlan, saveUserPlan, askQuestion, askQuestionStream } from "./lib/api.js";
 import { useAuth } from "./auth/AuthContext.jsx";
 
 const promptIdeas = [
@@ -187,12 +187,7 @@ function runBackgroundAsk(question, onDone) {
     sessionStorage.setItem("pendingRequestId", String(requestId));
     sessionStorage.setItem("pendingQuestion", question);
 
-    fetch("http://127.0.0.1:9000/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question }),
-    })
-        .then((r) => r.json())
+    askQuestion(question)
         .then((data) => {
             // Keep full data (with images) in memory
             _lastFullResponse = data;
@@ -275,12 +270,7 @@ export default function Home() {
         const hasAnyImage = hasExercises && exercises.some((ex) => Array.isArray(ex.images) && ex.images.some(Boolean));
 
         if (!readyId && storedQuestion && storedAnswer && hasExercises && !hasAnyImage) {
-            fetch("http://127.0.0.1:9000/ask", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question: storedQuestion }),
-            })
-                .then((r) => r.json())
+            askQuestion(storedQuestion)
                 .then((data) => {
                     _lastFullResponse = data;
                     if (mountedRef.current) {
@@ -335,23 +325,66 @@ export default function Home() {
         setToast(null);
         setSelectedExercise(null);
         setShowVideo(false);
-        // Keep old answer visible while loading – don't clear it
+        // Clear the old answer so streamed tokens render into a fresh card
+        // instead of appending after stale text.
+        setAnswer("");
 
-        runBackgroundAsk(question, (data, _reqId, error) => {
-            if (error) {
-                if (mountedRef.current) { setAnswer(error); setExercises([]); }
-            } else {
-                // Always use the fresh data with full images, whether mounted or not
-                if (mountedRef.current) {
-                    setAnswer(data.answer || "");
-                    setExercises(data.exercises || []);
-                }
-            }
+        // Mirrors runBackgroundAsk's sessionStorage bookkeeping so a page
+        // reload mid-stream still reconciles correctly on remount (see the
+        // "Detect if a request finished while we were on another page" effect).
+        const requestId = Date.now();
+        sessionStorage.setItem("pendingRequestId", String(requestId));
+        sessionStorage.setItem("pendingQuestion", question);
+
+        const finish = (finalAnswer, finalExercises) => {
+            _lastFullResponse = { answer: finalAnswer, exercises: finalExercises };
+            localStorage.setItem("aiAnswer", finalAnswer || "");
+            localStorage.setItem("aiExercises", JSON.stringify(stripImages(finalExercises || [])));
+            sessionStorage.setItem("answerReady", String(requestId));
+            sessionStorage.removeItem("pendingRequestId");
             if (mountedRef.current) {
                 setLoading(false);
                 showToast("Answer updated!", "success", "AI update");
                 refreshSuggestedPrompts();
             }
+        };
+
+        let streamed = "";
+        let sawAnyDelta = false;
+
+        askQuestionStream(question, {
+            onDelta: (text) => {
+                sawAnyDelta = true;
+                streamed += text;
+                if (mountedRef.current) setAnswer(streamed);
+            },
+            onDone: (data) => {
+                if (mountedRef.current) setExercises(data.exercises || []);
+                finish(streamed, data.exercises || []);
+            },
+            onError: () => {
+                if (sawAnyDelta) {
+                    // Partial stream, then a late failure — keep what streamed
+                    // in rather than throwing it away.
+                    finish(streamed, []);
+                    return;
+                }
+                // No usable stream at all (older browser, proxy buffering,
+                // stream endpoint unavailable) — fall back to the
+                // non-streaming /ask exactly as before P2-1.
+                runBackgroundAsk(question, (data, _reqId, error) => {
+                    if (error) {
+                        if (mountedRef.current) { setAnswer(error); setExercises([]); }
+                        finish(error, []);
+                    } else {
+                        if (mountedRef.current) {
+                            setAnswer(data.answer || "");
+                            setExercises(data.exercises || []);
+                        }
+                        finish(data.answer || "", data.exercises || []);
+                    }
+                });
+            },
         });
     };
 

@@ -37,3 +37,14 @@ restaurants_dataset.json
 # Logs
 logs
 *.log
+
+# Scraper debug artifacts
+**/food_pipeline/cdp_debug*.txt
+**/food_pipeline/debug_*
+**/food_pipeline/*_output*.txt
+**/food_pipeline/latest_scrape_attempt.txt
+**/food_pipeline/manual_*.txt
+**/food_pipeline/test_after_*.txt
+**/korpa_real_scraper_check.txt
+**/sportmaster_page.html
+**/test_page.html

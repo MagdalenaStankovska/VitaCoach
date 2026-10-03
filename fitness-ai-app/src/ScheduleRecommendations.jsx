@@ -328,7 +328,8 @@ function parseEventFromSuggestion(suggestion, selectedDate) {
 
 export default function ScheduleRecommendations() {
   const navigate = useNavigate();
-  const { user, token, isAuthenticated } = useAuth();
+  const { user, token, isAuthenticated, connectService } = useAuth();
+  const [connectingCalendar, setConnectingCalendar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const [recommendations, setRecommendations] = useState(null);
@@ -338,6 +339,7 @@ export default function ScheduleRecommendations() {
   const [suggestionDecisions, setSuggestionDecisions] = useState({});
   const [creatingEvent, setCreatingEvent] = useState({}); // Track which events are being created
   const [eventCreateMessage, setEventCreateMessage] = useState(""); // Feedback message
+  const [addingAllAccepted, setAddingAllAccepted] = useState(false);
 
   const nearestRestaurants =
     recommendations?.nearestRestaurants ||
@@ -486,6 +488,21 @@ export default function ScheduleRecommendations() {
     }
   }, [isAuthenticated, loadScheduleData]);
 
+  const handleConnectGoogleCalendar = async () => {
+    setConnectingCalendar(true);
+    try {
+      // connectService("google-calendar") navigates the whole page to
+      // Google's consent screen (window.location.assign), so there's
+      // nothing further to do here on success — the browser leaves this
+      // page. Only a thrown error (e.g. not logged in, OAuth not
+      // configured server-side) returns control to this component.
+      await connectService("google-calendar");
+    } catch (err) {
+      setError(err?.message || "Unable to start the Google Calendar connection.");
+      setConnectingCalendar(false);
+    }
+  };
+
   useEffect(() => {
     const closeOnEscape = (event) => {
       if (event.key === "Escape") {
@@ -567,6 +584,60 @@ export default function ScheduleRecommendations() {
     }
   };
 
+  const handleAddAllAcceptedToCalendar = async () => {
+    if (!selectedDay) return;
+
+    const dayDecisions = suggestionDecisions[selectedDay.key] || {};
+    const acceptedIndexes = selectedDaySuggestions
+      .map((_, index) => index)
+      .filter((index) => dayDecisions[index] === "accepted");
+
+    if (acceptedIndexes.length === 0) {
+      setEventCreateMessage("No accepted suggestions to add yet — accept some first.");
+      setTimeout(() => setEventCreateMessage(""), 3000);
+      return;
+    }
+
+    setAddingAllAccepted(true);
+    setEventCreateMessage("");
+
+    let succeeded = 0;
+    let failed = 0;
+
+    for (const index of acceptedIndexes) {
+      const suggestion = selectedDaySuggestions[index];
+      const eventKey = `${selectedDay.key}-${index}`;
+      setCreatingEvent((prev) => ({ ...prev, [eventKey]: true }));
+      try {
+        const eventData = parseEventFromSuggestion(suggestion, selectedDay.date);
+        if (!eventData) throw new Error("Could not parse event details");
+        const result = await createCalendarEvent(token, eventData);
+        if (result.success) {
+          succeeded += 1;
+        } else {
+          failed += 1;
+        }
+      } catch (err) {
+        console.error("Error adding event:", err);
+        failed += 1;
+      } finally {
+        setCreatingEvent((prev) => {
+          const next = { ...prev };
+          delete next[eventKey];
+          return next;
+        });
+      }
+    }
+
+    setAddingAllAccepted(false);
+    setEventCreateMessage(
+      failed === 0
+        ? `✅ Added ${succeeded} event${succeeded === 1 ? "" : "s"} to your calendar.`
+        : `⚠️ Added ${succeeded} event${succeeded === 1 ? "" : "s"}, ${failed} failed.`,
+    );
+    setTimeout(() => setEventCreateMessage(""), 4000);
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="schedule-container">
@@ -614,6 +685,14 @@ export default function ScheduleRecommendations() {
             You can still see nearby Korpa restaurants and gyms. Connect Google
             Calendar any time for event-based suggestions.
           </p>
+          <button
+            type="button"
+            className="save-btn"
+            onClick={handleConnectGoogleCalendar}
+            disabled={connectingCalendar}
+          >
+            {connectingCalendar ? "Redirecting to Google…" : "🔗 Connect Google Calendar"}
+          </button>
         </div>
       )}
 
@@ -951,6 +1030,17 @@ export default function ScheduleRecommendations() {
                   <h4>AI suggestions</h4>
                   <span className="calendar-panel-pill">Accept / reject</span>
                 </div>
+
+                {selectedDaySuggestions.length > 0 && (
+                  <button
+                    type="button"
+                    className="save-btn add-all-accepted-btn"
+                    onClick={handleAddAllAcceptedToCalendar}
+                    disabled={addingAllAccepted}
+                  >
+                    {addingAllAccepted ? "Adding accepted…" : "📅 Add all accepted to Calendar"}
+                  </button>
+                )}
 
                 <div className="ai-suggestion-list">
                    {selectedDaySuggestions.length > 0 ? (

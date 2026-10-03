@@ -1,0 +1,10 @@
+{"id": "q001", "query": "What are the best exercises for building bigger biceps?", "category": "muscle-group"}
+{"id": "q002", "query": "Give me exercises that target the hamstrings.", "category": "muscle-group"}
+{"id": "q003", "query": "What chest exercises can I do with no equipment at home?", "category": "equipment-constrained"}
+{"id": "q004", "query": "Give me a full-body workout using only a pair of dumbbells.", "category": "equipment-constrained"}
+{"id": "q005", "query": "I want to lose fat while preserving muscle - what should my training look like?", "category": "goal-directed"}
+{"id": "q006", "query": "How should I train to build maximum strength for powerlifting?", "category": "goal-directed"}
+{"id": "q007", "query": "I have a sore lower back - what exercises should I avoid and what can I do instead?", "category": "injury-aware"}
+{"id": "q008", "query": "I have knee pain - suggest a leg workout that is safe to do.", "category": "injury-aware"}
+{"id": "q009", "query": "I have 20 minutes, only a resistance band, and an old shoulder injury I need to work around - what shoulder-safe workout can I do?", "category": "mixed-constraint"}
+{"id": "q010", "query": "I'm a beginner trying to lose weight with only a pull-up bar and my bodyweight available - what's a good weekly plan?", "category": "mixed-constraint"}
